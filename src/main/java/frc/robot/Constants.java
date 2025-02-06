@@ -13,7 +13,56 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-  public static class OperatorConstants {
-    public static final int kDriverControllerPort = 0;
-  }
+      public static class OperatorConstants {
+        // =======================================================
+        // ==================== DRIVER ===========================
+        public static final int kDriverControllerPort = 0;
+        public static final double LEFT_X_DEADBAND = 0.1;
+        public static final double LEFT_Y_DEADBAND = 0.1;
+        public static final double RIGHT_X_DEADBAND = 0.1;
+        public static final double RIGHT_Y_DEADBAND = 0.1;
+    }
+    public static class DriveConstants {
+        // =======================================================
+        // ================= MOTOR IDS ===========================
+        //DRIVE MOTOR IDS
+        public static final int UPPER_LEFT_DRIVE_ID = 1;
+        public static final int UPPER_RIGHT_DRIVE_ID = 2;
+        public static final int BOTTOM_LEFT_DRIVE_ID = 3;
+        public static final int BOTTOM_RIGHT_DRIVE_ID = 4;
+
+        //STEER MOTORS  IDS
+        public static final int UPPER_LEFT_STEER_ID = 5;
+        public static final int UPPER_RIGHT_STEER_ID = 6;
+        public static final int BOTTOM_LEFT_STEER_ID = 7;
+        public static final int BOTTOM_RIGHT_STEER_ID = 8;
+
+        // =======================================================
+        // ====================== PID ============================
+
+        public static final double AUTO_DRIVE_P = 0;
+        public static final double AUTO_DRIVE_I = 0;
+        public static final double AUTO_DRIVE_D = 0;
+        public static final double AUTO_DRIVE_F = 0;
+
+        public static final double ALIGN_P = 0;
+        public static final double ALIGN_I = 0;
+        public static final double ALIGN_D = 0;
+
+        public static final double INTAKE_P = 0;
+        public static final double INTAKE_I = 0;
+        public static final double INTAKE_D = 0;
+
+        // =======================================================
+        // ======================= GENERAL =======================
+
+        public static final double MAX_VELOCITY_FEET = 0;
+        public static final double MAX_VELOCITY_METERS = 0;
+
+        public static final double MAX_ACCELERATION_METERS = 0;
+    }
+    public static class ElevatorConstants {
+        public static final double ELEVATOR_VELOCITY = 0;
+
+    }
 }
