@@ -62,7 +62,41 @@ public final class Constants {
         public static final double MAX_ACCELERATION_METERS = 0;
     }
     public static class ElevatorConstants {
-        public static final double ELEVATOR_VELOCITY = 0;
+        // =======================================================
+        // ================= MOTOR IDS ===========================
+        public static final int LEFT_MOTOR_ID = 0;
+        public static final int RIGHT_MOTOR_ID = 0;
 
+        // ==================================================================
+        // ================= MOTOR CONFIGURATIONS ===========================
+        public static final double LEFT_kS = 0;
+        public static final double LEFT_kV = 0;
+        public static final double LEFT_kA = 0;
+        public static final double LEFT_kP = 0;
+        public static final double LEFT_kI = 0;
+        public static final double LEFT_kD = 0;
+
+        public static final double RIGHT_kS = 0;
+        public static final double RIGHT_kV = 0;
+        public static final double RIGHT_kA = 0;
+        public static final double RIGHT_kP = 0;
+        public static final double RIGHT_kI = 0;
+        public static final double RIGHT_kD = 0;
+
+        // =========================================================================
+        // ================= MOTION MAGIC CONFIGURATIONS ===========================
+        public static final double VELOCITY_UP = 0;
+        public static final double VELOCITY_DOWN = 0;
+        public static final double ACCELERATION_UP = 0;
+        public static final double ACCELERATION_DOWN = 0;
+        public static final double JERK_UP = 0;
+        public static final double JERK_DOWN = 0;
+        // =========================================================================
+        // ================= CORAL LEVEL HEIGHTS ===================================
+        public static final double L1 = 0;
+        public static final double L2 = 0;
+        public static final double L3 = 0;
+        public static final double L4 = 0;
     }
+
 }
