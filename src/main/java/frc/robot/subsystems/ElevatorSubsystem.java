@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.configs.MotionMagicConfigs;
+import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -17,9 +19,10 @@ import frc.robot.Constants.ElevatorConstants;
  * 
  */
 public class ElevatorSubsystem extends SubsystemBase {
-    private TalonFX m_left = new TalonFX(ElevatorConstants.LEFT_MOTOR_ID); //Moves the left chain
-    private TalonFX m_right = new TalonFX(ElevatorConstants.RIGHT_MOTOR_ID); //Moves the right chain
-    
+    private static TalonFX m_left = new TalonFX(ElevatorConstants.LEFT_MOTOR_ID); //Moves the left chain
+    private static TalonFX m_right = new TalonFX(ElevatorConstants.RIGHT_MOTOR_ID); //Moves the right chain
+    private static MotionMagicConfigs motionMagicLeft;
+    private static MotionMagicConfigs motionMagicRight;
     // ========================================================
     // ============= CLASS & SINGLETON SETUP ==================
 
@@ -46,8 +49,8 @@ public class ElevatorSubsystem extends SubsystemBase {
         rightSlot0Config.kI = ElevatorConstants.RIGHT_kI; 
         rightSlot0Config.kD = ElevatorConstants.RIGHT_kD;
 
-        var motionMagicLeft = m_left_config.MotionMagic;
-        var motionMagicRight = m_right_config.MotionMagic;
+        motionMagicLeft = m_left_config.MotionMagic;
+        motionMagicRight = m_right_config.MotionMagic;
 
         m_left.getConfigurator().apply(m_left_config);
         m_right.getConfigurator().apply(m_right_config);
@@ -61,21 +64,36 @@ public class ElevatorSubsystem extends SubsystemBase {
         return instance;
     }
 
-    // MOTOR CONFIGURATIONS ------------------------------------
  
     public static void moveDown() {
-        /*
+        //Set Velocity and Acceleration
         motionMagicLeft.MotionMagicCruiseVelocity = ElevatorConstants.VELOCITY_DOWN; 
         motionMagicLeft.MotionMagicAcceleration = ElevatorConstants.ACCELERATION_DOWN; 
-        motionMagicLeft.MotionMagicJerk = ElevatorConstants.JERK_DOWN;
-        */
+        motionMagicRight.MotionMagicCruiseVelocity = ElevatorConstants.VELOCITY_DOWN; 
+        motionMagicRight.MotionMagicAcceleration = ElevatorConstants.ACCELERATION_DOWN; 
+        
+        //Calculate rotations needed to move up to the next level
+
+        //Create Request to Motors
+        final MotionMagicVoltage m_request = new MotionMagicVoltage(0);
+        m_left.setControl(m_request.withPosition(100)); 
+        m_right.setControl(m_request.withPosition(100));
     }
 
     public static void moveUp() {
-        /*
+        
+        //Set Velocity and Acceleration
         motionMagicLeft.MotionMagicCruiseVelocity = ElevatorConstants.VELOCITY_DOWN; 
         motionMagicLeft.MotionMagicAcceleration = ElevatorConstants.ACCELERATION_DOWN; 
-        motionMagicLeft.MotionMagicJerk = ElevatorConstants.JERK_DOWN;
-        */
+        motionMagicRight.MotionMagicCruiseVelocity = ElevatorConstants.VELOCITY_DOWN; 
+        motionMagicRight.MotionMagicAcceleration = ElevatorConstants.ACCELERATION_DOWN; 
+
+        //Calculate rotations needed to move down to the next level
+
+        //Create Request to Motors
+        final MotionMagicVoltage m_request = new MotionMagicVoltage(0);
+        m_left.setControl(m_request.withPosition(-100));
+        m_right.setControl(m_request.withPosition(-100));
+        
     }
 }
