@@ -10,7 +10,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
  * Refers to the robot's intake mechanism
  * 
  * MOTORS ===========
- * Kraken X44 Brushless
+ * Kraken X44
+ * 
+ * Kraken X60(x2)
  * 
  * SENSORS ==========
  * 
