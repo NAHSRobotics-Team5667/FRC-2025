@@ -2,9 +2,11 @@ package frc.robot.subsystems;
 
 import java.util.Map;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotState;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.States.*;
+
 public class StateManager extends SubsystemBase {
     //Elevator
     private ElevatorStates elevatorState;
@@ -45,5 +47,15 @@ public class StateManager extends SubsystemBase {
     public ElevatorStates getElevatorStates() {
         return elevatorState;
     }
+
+    // ========================================================
+    // ======================= LEDS ===========================
+
+    private void updateLights() {
+        if (DriverStation.isEnabled()) {
+
+        }
+    }
+
 }
 
