@@ -6,7 +6,6 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import com.ctre.phoenix6.hardware.TalonFX;
 
 /**
  * The methods in this class are called automatically corresponding to each mode, as described in
@@ -15,7 +14,6 @@ import com.ctre.phoenix6.hardware.TalonFX;
  */
 public class Robot extends TimedRobot {
   private final RobotContainer m_robotContainer;
-  private final TalonFX TalonMotor;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -24,7 +22,6 @@ public class Robot extends TimedRobot {
   public Robot() {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
-    TalonMotor = new TalonFX(38);
     m_robotContainer = new RobotContainer();
   }
 
@@ -73,8 +70,6 @@ public class Robot extends TimedRobot {
   @Override
   public void testInit() {
     System.out.println("[ALERT] - Testing Mode has been triggered.");
-
-    TalonMotor.set(0.1);
 
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();

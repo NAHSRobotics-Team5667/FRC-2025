@@ -35,6 +35,6 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    System.out.println("Hello World!");
+    
   }
 }

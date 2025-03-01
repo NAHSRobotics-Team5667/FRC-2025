@@ -99,4 +99,16 @@ public final class Constants {
         public static final double L4 = 0;
     }
 
+    public static class IntakeConstants {
+        // =======================================================
+        // ================= MOTOR IDS ===========================
+        public static final int INTAKE_ID = 0;
+    }
+
+    public static class IndexerConstants {
+        // =======================================================
+        // ================= MOTOR IDS ===========================
+        public static final int INDEX_ID = 0;
+    }
+
 }

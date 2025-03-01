@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.IntakeConstants;
 
 /**
  * IntakeSubsystem.java
@@ -11,8 +12,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
  * 
  * MOTORS ===========
  * Kraken X44
- * 
- * Kraken X60(x2)
  * 
  * SENSORS ==========
  * 
@@ -31,5 +30,25 @@ public class IntakeSubsystem extends SubsystemBase {
             instance = new IntakeSubsystem();
 
         return instance;
+    }
+
+    public IntakeSubsystem() {
+        m_intake = new TalonFX(IntakeConstants.INTAKE_ID);
+
+
+        // TODO: Replace deprecated method with modern method.
+        m_intake.setInverted(true);  
+    }
+
+    // ========================================================
+    // ====================== ACTIONS =========================
+
+    /**
+     * Sets relative velocity of the intake.
+     * @param speed % output of intake motor. 0-100.
+     */
+    public void set(double speed) {
+        double motorSpeed = speed/100;
+        m_intake.set(motorSpeed);
     }
 }

@@ -78,6 +78,8 @@ public class ElevatorSubsystem extends SubsystemBase {
 
         //Create Request to Motors
         final MotionMagicVoltage m_request = new MotionMagicVoltage(0);
+
+        //TODO: 100 is a placeholder until we get calculated rotations.
         m_left.setControl(m_request.withPosition(100)); 
         m_right.setControl(m_request.withPosition(100));
     }

@@ -11,10 +11,9 @@ public class LEDSubsystem extends SubsystemBase {
     private AddressableLED led;
     private AddressableLEDBuffer ledBuffer;
     private Color teamColor;
-
     private static LEDSubsystem instance = null;
-
     
+    @SuppressWarnings("unlikely-arg-type") //This is to ignore line 29 which identifies the team color.
     private LEDSubsystem(int ledPort, int ledLength) {
         // PWM port 9
         // Must be a PWM header, not MXP or DIO
@@ -24,16 +23,21 @@ public class LEDSubsystem extends SubsystemBase {
         // Length is expensive to set, so only set it once, then just update data
         this.ledBuffer = new AddressableLEDBuffer(ledLength);
         this.led.setLength(ledBuffer.getLength());
+
         this.teamColor = DriverStation.getAlliance().equals(Alliance.Red) ? new Color(255, 0, 0) : new Color(0, 0, 255);
         this.setSolidRGB(0, 255, 0);
 
-        // Set the data
+        // Sets the buffer data.
         this.led.setData(ledBuffer);
 
         this.led.start();
-        // scheduler = new Light_Scheduler();
     }
 
+    /**
+     * Returns the instance of the LEDSubsystem. If the instance is null, it will
+     * create a new instance.
+     * @return
+     */
     public static LEDSubsystem getInstance() {
         if (instance == null) {
             instance = new LEDSubsystem(0, 0);
@@ -41,6 +45,17 @@ public class LEDSubsystem extends SubsystemBase {
 
         return instance;
     }
+
+    // ========================================================
+    // ==================== TEAM COLOR ========================
+    /**
+     * Returns the color based on the alliance selected by Driver Station from FMS.
+     * @return
+     */
+    public Color getTeamColor() {
+        return this.teamColor;
+    }
+
 
     // ========================================================
     // ==================== SOLID COLOR =======================
