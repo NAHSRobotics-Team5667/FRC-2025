@@ -67,7 +67,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     }
 
  
-    public static void moveDown() {
+    public static void moveDown(double targetRotations) {
         //Set Velocity and Acceleration
         motionMagicLeft.MotionMagicCruiseVelocity = ElevatorConstants.VELOCITY_DOWN; 
         motionMagicLeft.MotionMagicAcceleration = ElevatorConstants.ACCELERATION_DOWN; 
@@ -78,26 +78,21 @@ public class ElevatorSubsystem extends SubsystemBase {
 
         //Create Request to Motors
         final MotionMagicVoltage m_request = new MotionMagicVoltage(0);
-
-        //TODO: 100 is a placeholder until we get calculated rotations.
-        m_left.setControl(m_request.withPosition(100)); 
-        m_right.setControl(m_request.withPosition(100));
+        m_left.setControl(m_request.withPosition(targetRotations)); 
+        m_right.setControl(m_request.withPosition(targetRotations));
     }
 
-    public static void moveUp() {
-        
+    public static void moveUp(double targetRotations) {
         //Set Velocity and Acceleration
         motionMagicLeft.MotionMagicCruiseVelocity = ElevatorConstants.VELOCITY_DOWN; 
         motionMagicLeft.MotionMagicAcceleration = ElevatorConstants.ACCELERATION_DOWN; 
         motionMagicRight.MotionMagicCruiseVelocity = ElevatorConstants.VELOCITY_DOWN; 
         motionMagicRight.MotionMagicAcceleration = ElevatorConstants.ACCELERATION_DOWN; 
 
-        //Calculate rotations needed to move down to the next level
-
         //Create Request to Motors
         final MotionMagicVoltage m_request = new MotionMagicVoltage(0);
-        m_left.setControl(m_request.withPosition(-100));
-        m_right.setControl(m_request.withPosition(-100));
+        m_left.setControl(m_request.withPosition(-targetRotations));
+        m_right.setControl(m_request.withPosition(-targetRotations));
         
     }
 }
