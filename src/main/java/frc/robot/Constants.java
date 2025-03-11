@@ -67,22 +67,6 @@ public final class Constants {
         public static final int LEFT_MOTOR_ID = 0;
         public static final int RIGHT_MOTOR_ID = 0;
 
-        // ==================================================================
-        // ================= MOTOR CONFIGURATIONS ===========================
-        public static final double LEFT_kS = 0;
-        public static final double LEFT_kV = 0;
-        public static final double LEFT_kA = 0;
-        public static final double LEFT_kP = 0;
-        public static final double LEFT_kI = 0;
-        public static final double LEFT_kD = 0;
-
-        public static final double RIGHT_kS = 0;
-        public static final double RIGHT_kV = 0;
-        public static final double RIGHT_kA = 0;
-        public static final double RIGHT_kP = 0;
-        public static final double RIGHT_kI = 0;
-        public static final double RIGHT_kD = 0;
-
         // =========================================================================
         // ================= MOTION MAGIC CONFIGURATIONS ===========================
         public static final double VELOCITY_UP = 0;
@@ -93,14 +77,15 @@ public final class Constants {
         public static final double JERK_DOWN = 0;
         // =========================================================================
         // ================= CORAL LEVEL HEIGHTS ===================================
-        public static final double LEVEL_1 = 0;
-        public static final double LEVEL_2 = 0;
-        public static final double LEVEL_3 = 0;
-        public static final double LEVEL_4 = 0;
+        public static final double BASE = 0;
+        public static final double LEVEL_1 = 0.46;
+        public static final double LEVEL_2 = 0.81;
+        public static final double LEVEL_3 = 1.21;
+        public static final double LEVEL_4 = 1.83;
         // =========================================================================
         // ============================ MISC =======================================
         public static final double GEAR_RATIO = 12;
-        public static final double WHEEL_RADIUS = 0;
+        public static final double WHEEL_RADIUS = 0.827;
     }
 
     public static class IntakeConstants {
@@ -116,8 +101,19 @@ public final class Constants {
     }
 
     public static class EndEffectorConstants {
+        // =======================================================
+        // ================= MOTOR IDS ===========================
         public static final int CLAMP_ID = 0;
         public static final int WRIST_ID = 0;
+
+        // =======================================================
+        // ================= ANGULAR POSITIONS ===================
+        public static final double PROCESSOR_ANGLE = 0;
+        public static final double BARGE_ANGLE = 0;
+        public static final double REEF_ANGLE = 0;
+        
+        public static final double WRIST_SPEED = 0;
+        public static final double CLAMP_SPEED = 0;
     }
 
 }

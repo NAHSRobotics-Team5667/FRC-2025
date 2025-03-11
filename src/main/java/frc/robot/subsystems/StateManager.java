@@ -11,6 +11,9 @@ public class StateManager extends SubsystemBase {
     //Elevator
     private ElevatorStates elevatorState;
 
+    //Elevator
+    private EndEffectorStates endEffectorState;
+
     //Robot State
     private RobotStates desiredRobotState;
 
@@ -46,6 +49,13 @@ public class StateManager extends SubsystemBase {
      */
     public ElevatorStates getElevatorStates() {
         return elevatorState;
+    }
+
+        /**
+     * @return elevator state.
+     */
+    public EndEffectorStates getEndEffectorStates() {
+        return endEffectorState;
     }
 
     // ========================================================

@@ -4,8 +4,9 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.configs.MotionMagicConfigs;
+import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.EndEffectorConstants;
 
@@ -26,8 +27,10 @@ import frc.robot.Constants.EndEffectorConstants;
  **/
 
 public class EndEffectorSubsystem extends SubsystemBase {
-  TalonFX m_wrist;
-  TalonFX m_clamp;
+  private TalonFX m_wrist;
+  private TalonFX m_clamp;
+  private static MotionMagicConfigs motionMagicWrist;
+  private static MotionMagicConfigs motionMagicClamp;
 
     // ========================================================
     // ============= CLASS & SINGLETON SETUP ==================
@@ -39,7 +42,8 @@ public class EndEffectorSubsystem extends SubsystemBase {
   public EndEffectorSubsystem() {
     m_wrist = new TalonFX(EndEffectorConstants.WRIST_ID);
     m_clamp = new TalonFX(EndEffectorConstants.CLAMP_ID);
-
+    motionMagicWrist = new MotionMagicConfigs();
+    motionMagicClamp = new MotionMagicConfigs();
   }
 
   public static EndEffectorSubsystem getInstance() {
@@ -51,21 +55,21 @@ public class EndEffectorSubsystem extends SubsystemBase {
 
     //TODO:Complete methods for End Effector motor actions
     // ========================================================
-    // ============= MOTOR ACTIONS FOR WRIST ==================
+    // ================== MOTOR ACTIONS ======================-
 
-    public void setWristToBarge() {}
+    public void setWristAngle(double rotations) {
+      motionMagicWrist.MotionMagicCruiseVelocity = EndEffectorConstants.WRIST_SPEED;
+      m_wrist.getConfigurator().apply(motionMagicWrist);
+      final MotionMagicVoltage m_request = new MotionMagicVoltage(rotations);
+      m_wrist.setControl(m_request.withPosition(rotations));
+    }
 
-    public void setWristToReef() {}
-
-    public void setWristToProcessor() {}
-
-    // ========================================================
-    // ============= MOTOR ACTIONS FOR CLAMP ==================
-
-    public void holdCoral() {}
-
-    public void holdAlgae() {}
-
+    public void adjustClamp(double rotations) {
+      motionMagicClamp.MotionMagicCruiseVelocity = EndEffectorConstants.CLAMP_SPEED; 
+      m_wrist.getConfigurator().apply(motionMagicClamp);
+      final MotionMagicVoltage m_request = new MotionMagicVoltage(rotations);
+      m_clamp.setControl(m_request.withPosition(rotations));
+    }
   
   @Override
   public void periodic() {

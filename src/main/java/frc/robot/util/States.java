@@ -24,4 +24,19 @@ public class States {
         CORAL_STATION,
         HANGING
     }
+
+    public static enum EndEffectorStates {
+        /*  State for when End Effector is holding coral */
+        HOLDING_CORAL,
+        /*  State for when End Effector is holding algae */
+        HOLDING_ALGAE,
+        /*  State for when End Effector is angled at the reef */
+        AT_REEF,
+        /*  State for when End Effector is angled at processor */
+        AT_PROCESSOR,
+        /*  State for when End Effector is angled at barge */
+        AT_BARGE,
+        /*  State for when End Effector is completely horizontal */
+        AT_ZERO
+    }
 }
