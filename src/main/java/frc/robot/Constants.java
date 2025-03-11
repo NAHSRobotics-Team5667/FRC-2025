@@ -93,10 +93,14 @@ public final class Constants {
         public static final double JERK_DOWN = 0;
         // =========================================================================
         // ================= CORAL LEVEL HEIGHTS ===================================
-        public static final double L1 = 0;
-        public static final double L2 = 0;
-        public static final double L3 = 0;
-        public static final double L4 = 0;
+        public static final double LEVEL_1 = 0;
+        public static final double LEVEL_2 = 0;
+        public static final double LEVEL_3 = 0;
+        public static final double LEVEL_4 = 0;
+        // =========================================================================
+        // ============================ MISC =======================================
+        public static final double GEAR_RATIO = 12;
+        public static final double WHEEL_RADIUS = 0;
     }
 
     public static class IntakeConstants {
@@ -109,6 +113,11 @@ public final class Constants {
         // =======================================================
         // ================= MOTOR IDS ===========================
         public static final int INDEX_ID = 0;
+    }
+
+    public static class EndEffectorConstants {
+        public static final int CLAMP_ID = 0;
+        public static final int WRIST_ID = 0;
     }
 
 }

@@ -2,6 +2,8 @@ package frc.robot.util;
 
 public class States {
     public static enum ElevatorStates {
+        /* State for when Elevator is at its lowest point */
+        BASE,
         /* State for when Elevator is at Level 1 */
         LEVEL_1,
         /*  State for when Elevator is at Level 2 */
@@ -9,7 +11,9 @@ public class States {
         /*  State for when Elevator is at Level 3 */
         LEVEL_3,
         /*  State for when Elevator is at Level 4 */
-        LEVEL_4
+        LEVEL_4,
+        /*  State for when Elevator is Moving */
+        MOVING
     }
 
     public static enum RobotStates {

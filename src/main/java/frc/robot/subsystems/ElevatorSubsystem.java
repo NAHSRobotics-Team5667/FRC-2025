@@ -67,7 +67,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     }
 
  
-    public static void moveDown(double targetRotations) {
+    public void moveDown(double targetRotations) {
         //Set Velocity and Acceleration
         motionMagicLeft.MotionMagicCruiseVelocity = ElevatorConstants.VELOCITY_DOWN; 
         motionMagicLeft.MotionMagicAcceleration = ElevatorConstants.ACCELERATION_DOWN; 
@@ -82,7 +82,7 @@ public class ElevatorSubsystem extends SubsystemBase {
         m_right.setControl(m_request.withPosition(targetRotations));
     }
 
-    public static void moveUp(double targetRotations) {
+    public void moveUp(double targetRotations) {
         //Set Velocity and Acceleration
         motionMagicLeft.MotionMagicCruiseVelocity = ElevatorConstants.VELOCITY_DOWN; 
         motionMagicLeft.MotionMagicAcceleration = ElevatorConstants.ACCELERATION_DOWN; 
@@ -94,5 +94,9 @@ public class ElevatorSubsystem extends SubsystemBase {
         m_left.setControl(m_request.withPosition(-targetRotations));
         m_right.setControl(m_request.withPosition(-targetRotations));
         
+    }
+
+    public double calcRotations(double currentLevel, double nextLevel) {
+        return (nextLevel - currentLevel)/(Math.PI * 2 * ElevatorConstants.WHEEL_RADIUS)*ElevatorConstants.GEAR_RATIO;
     }
 }
