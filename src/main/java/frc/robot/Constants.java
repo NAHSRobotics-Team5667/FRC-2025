@@ -111,9 +111,15 @@ public final class Constants {
         public static final double PROCESSOR_ANGLE = 0;
         public static final double BARGE_ANGLE = 0;
         public static final double REEF_ANGLE = 0;
+        public static final double INTAKE_ANGLE = 0;
         
         public static final double WRIST_SPEED = 0;
         public static final double CLAMP_SPEED = 0;
+    }
+
+    public static class LimelightConstants {
+        public static final double kCamHeight = 0; // Height of the limelight from the ground
+        public static final double kCamAngle = 0; // Pitch angle of direction the limelight is pointed in
     }
 
 }

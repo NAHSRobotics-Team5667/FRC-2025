@@ -6,12 +6,12 @@ import frc.robot.subsystems.StateManager;
 import frc.robot.util.States;
 import edu.wpi.first.wpilibj2.command.Command;
 
-public class wristToReef extends Command {
+public class wristToIntake extends Command {
     private EndEffectorSubsystem end_effector;
     private StateManager states;
     double targetRotations;
 
-    public wristToReef() {
+    public wristToIntake() {
         end_effector = EndEffectorSubsystem.getInstance();
         states = StateManager.getInstance();
     }
@@ -22,13 +22,13 @@ public class wristToReef extends Command {
         States.EndEffectorStates currentPosition = states.getEndEffectorStates();
 
         targetRotations = switch (currentPosition) {
-            case AT_REEF -> 0;
+            case AT_INTAKE -> 0;
 
-            case AT_BARGE -> EndEffectorConstants.REEF_ANGLE - EndEffectorConstants.BARGE_ANGLE;
+            case AT_BARGE -> -EndEffectorConstants.BARGE_ANGLE;
 
-            case AT_PROCESSOR -> EndEffectorConstants.REEF_ANGLE - EndEffectorConstants.PROCESSOR_ANGLE;
+            case AT_PROCESSOR -> -EndEffectorConstants.PROCESSOR_ANGLE;
 
-            default -> EndEffectorConstants.REEF_ANGLE;
+            default -> -EndEffectorConstants.REEF_ANGLE;
         };
     }
 
