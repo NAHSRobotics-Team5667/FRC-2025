@@ -17,7 +17,6 @@ import frc.robot.Constants.IntakeConstants;
  * SENSORS ==========
  * 
  **/
-@SuppressWarnings("unused")
 public class IntakeSubsystem extends SubsystemBase {
     private TalonFX m_intake;
    
@@ -49,5 +48,13 @@ public class IntakeSubsystem extends SubsystemBase {
     public void set(double speed) {
         double motorSpeed = speed/100;
         m_intake.set(motorSpeed);
+    }
+
+    public double getSpeed() {
+        return m_intake.get();
+    }
+
+    public void stopMotor() {
+        m_intake.set(0);
     }
 }

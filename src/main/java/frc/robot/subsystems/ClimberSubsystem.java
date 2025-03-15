@@ -4,7 +4,14 @@
 
 package frc.robot.subsystems;
 
+//WPILib imports.
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+//Native file imports.
+import frc.robot.Constants.ClimberConstants;
+
+//CTRE imports.
+import com.ctre.phoenix6.hardware.TalonFX;
 
 /**
  * ClimberSubsystem.java
@@ -20,9 +27,20 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
  **/
 
 public class ClimberSubsystem extends SubsystemBase {
+  private TalonFX m_climbMotor; //Operates the climber wintch.
+
   /** Creates a new ClimberSubsystem. */
   public ClimberSubsystem() {
-    
+    m_climbMotor = new TalonFX(ClimberConstants.CLIMBER_ID);
+  }
+
+  private static ClimberSubsystem instance = null;
+
+  public static ClimberSubsystem getInstance() {
+    if (instance == null) {
+      instance = new ClimberSubsystem();
+    }
+    return instance;
   }
 
   @Override

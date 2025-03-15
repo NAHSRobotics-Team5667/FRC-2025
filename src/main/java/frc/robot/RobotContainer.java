@@ -17,6 +17,15 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.IndexerSubsystem;
 import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.StateManager;
+
+import frc.robot.commands.intake.IntakeCommand;
+import frc.robot.commands.indexer.IndexerCommand;
+import frc.robot.commands.endeffector.wristToBarge;
+import frc.robot.commands.endeffector.wristToReef;
+import frc.robot.commands.endeffector.wristToProcessor; 
+import frc.robot.commands.endeffector.wristToIntake;
+import frc.robot.commands.elevator.ElevatorDown;
+import frc.robot.commands.elevator.ElevatorUp;
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -27,7 +36,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   //private SwerveSubsystem swerveSubsystem = SwerveSubsystem.getInstance();
   private ElevatorSubsystem elevatorSubsystem = ElevatorSubsystem.getInstance();
-  //private ClimberSubsystem climberSubsystem = ClimberSubsystem.getInstance();
+  private ClimberSubsystem climberSubsystem = ClimberSubsystem.getInstance();
   private IntakeSubsystem intakeSubsystem = IntakeSubsystem.getInstance();
   private IndexerSubsystem indexerSubsystem = IndexerSubsystem.getInstance();
   private EndEffectorSubsystem endEffectorSubsystem = EndEffectorSubsystem.getInstance();

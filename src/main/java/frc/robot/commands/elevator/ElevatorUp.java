@@ -10,6 +10,7 @@ public class ElevatorUp extends Command {
     private ElevatorSubsystem elevator;
     private StateManager states;
     double targetRotations;
+    States.ElevatorStates currentLevel;
 
     public ElevatorUp() {
         elevator = ElevatorSubsystem.getInstance(); 
@@ -22,7 +23,7 @@ public class ElevatorUp extends Command {
      // Called when the command is initially scheduled.
      @Override
      public void initialize() {
-        States.ElevatorStates currentLevel = states.getElevatorStates();
+        currentLevel = states.getElevatorStates();
         targetRotations = switch (currentLevel) {
             case MOVING, LEVEL_4 -> 0;
 
@@ -40,12 +41,24 @@ public class ElevatorUp extends Command {
      @Override
      public void execute() {
         elevator.moveUp(targetRotations);
+        states.updateElevatorStates(States.ElevatorStates.MOVING);
      }
 
          // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-        
+        States.ElevatorStates newLevel;
+        if (currentLevel.equals(States.ElevatorStates.LEVEL_3)) {
+            newLevel = States.ElevatorStates.LEVEL_4;
+        } else if (currentLevel.equals(States.ElevatorStates.LEVEL_2)) {
+            newLevel = States.ElevatorStates.LEVEL_3;
+        } else if (currentLevel.equals(States.ElevatorStates.LEVEL_3)) {
+            newLevel = States.ElevatorStates.LEVEL_4;
+        } else {
+            newLevel = States.ElevatorStates.LEVEL_1;
+        }
+
+        states.updateElevatorStates(newLevel);
     }
 
     // Returns true when the command should end.

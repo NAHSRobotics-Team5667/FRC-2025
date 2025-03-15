@@ -22,7 +22,7 @@ public class wristToProcessor extends Command {
         States.EndEffectorStates currentPosition = states.getEndEffectorStates();
 
         targetRotations = switch (currentPosition) {
-            case AT_PROCESSOR -> 0;
+            case AT_PROCESSOR, IS_MOVING -> 0;
 
             case AT_BARGE -> EndEffectorConstants.PROCESSOR_ANGLE - EndEffectorConstants.BARGE_ANGLE;
 
@@ -36,12 +36,13 @@ public class wristToProcessor extends Command {
          @Override
          public void execute() {
             end_effector.setWristAngle(targetRotations);
+            states.updateEndEffectorStates(States.EndEffectorStates.IS_MOVING);
          }
     
-             // Called once the command ends or is interrupted.
+        // Called once the command ends or is interrupted.
         @Override
         public void end(boolean interrupted) {
-            
+            states.updateEndEffectorStates(States.EndEffectorStates.AT_PROCESSOR);
         }
     
         // Returns true when the command should end.

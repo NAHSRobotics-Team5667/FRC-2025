@@ -20,7 +20,7 @@ public class States {
         IDLE,
         REEF,
         CAGE,
-        PROCESSOSR,
+        PROCESSOR,
         CORAL_STATION,
         HANGING
     }
@@ -40,7 +40,23 @@ public class States {
         AT_PROCESSOR,
         /*  State for when End Effector is angled at barge */
         AT_BARGE,
-        /*  State for when End Effector is angled towards the indexer and intake to feeda part */
-        AT_INTAKE
+        /*  State for when End Effector is angled towards the indexer and intake to retrieve part */
+        AT_INTAKE,
+        /*  State for when End Effector is moving */
+        IS_MOVING
+    }
+
+    public static enum IndexerStates {
+        /* State for when the index is turned off */
+        INDEXER_OFF,
+        /* State for when the index is turned on */
+        INDEXER_ON
+    }
+
+    public static enum IntakeStates {
+        /* State for when the index is turned off */
+        INTAKE_ON,
+        /* State for when the index is turned on */
+        INTAKE_OFF
     }
 }

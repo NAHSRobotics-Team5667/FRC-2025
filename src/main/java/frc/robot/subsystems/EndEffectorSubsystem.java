@@ -53,7 +53,6 @@ public class EndEffectorSubsystem extends SubsystemBase {
     return instance;
 }
 
-    //TODO:Complete methods for End Effector motor actions
     // ========================================================
     // ================== MOTOR ACTIONS ======================-
 

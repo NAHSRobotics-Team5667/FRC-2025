@@ -92,12 +92,21 @@ public final class Constants {
         // =======================================================
         // ================= MOTOR IDS ===========================
         public static final int INTAKE_ID = 0;
+        public static final int INTAKE_SPEED = 0;
     }
 
     public static class IndexerConstants {
         // =======================================================
         // ================= MOTOR IDS ===========================
-        public static final int INDEX_ID = 0;
+        public static final int INDEX_ID_A = 0;
+        public static final int INDEX_ID_B = 0;
+        public static final int INTAKE_SPEED = 0;
+    }
+
+    public static class ClimberConstants {
+        // =======================================================
+        // ================= MOTOR IDS ===========================
+        public static final int CLIMBER_ID = 0;
     }
 
     public static class EndEffectorConstants {
@@ -121,5 +130,7 @@ public final class Constants {
         public static final double kCamHeight = 0; // Height of the limelight from the ground
         public static final double kCamAngle = 0; // Pitch angle of direction the limelight is pointed in
     }
+
+
 
 }

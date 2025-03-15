@@ -10,6 +10,7 @@ public class ElevatorDown extends Command {
     private ElevatorSubsystem elevator;
     private StateManager states;
     double targetRotations;
+    private States.ElevatorStates currentLevel;
 
     public ElevatorDown() {
         elevator = ElevatorSubsystem.getInstance(); 
@@ -22,17 +23,17 @@ public class ElevatorDown extends Command {
       // Called when the command is initially scheduled.
       @Override
       public void initialize() {
-         States.ElevatorStates currentLevel = states.getElevatorStates();
+         currentLevel = states.getElevatorStates();
          targetRotations = switch (currentLevel) {
-             case MOVING, LEVEL_4 -> 0;
+             case LEVEL_4 -> elevator.calcRotations(ElevatorConstants.LEVEL_3, ElevatorConstants.LEVEL_4);
  
-             case LEVEL_3 -> elevator.calcRotations(ElevatorConstants.LEVEL_3, ElevatorConstants.LEVEL_4);
+             case LEVEL_3 -> elevator.calcRotations(ElevatorConstants.LEVEL_2, ElevatorConstants.LEVEL_3);
  
-             case LEVEL_2 -> elevator.calcRotations(ElevatorConstants.LEVEL_2, ElevatorConstants.LEVEL_3);
+             case LEVEL_2 -> elevator.calcRotations(ElevatorConstants.LEVEL_1, ElevatorConstants.LEVEL_2);
  
-             case LEVEL_1 -> elevator.calcRotations(ElevatorConstants.LEVEL_1, ElevatorConstants.LEVEL_2);
+             case LEVEL_1 -> elevator.calcRotations(ElevatorConstants.LEVEL_1, 0);
  
-             default -> elevator.calcRotations(0, ElevatorConstants.LEVEL_1);
+             default -> 0;
          };
       }
  
@@ -40,12 +41,24 @@ public class ElevatorDown extends Command {
       @Override
       public void execute() {
          elevator.moveUp(targetRotations);
+         states.updateElevatorStates(States.ElevatorStates.MOVING);
       }
  
           // Called once the command ends or is interrupted.
      @Override
      public void end(boolean interrupted) {
-         
+        States.ElevatorStates newLevel;
+        if (currentLevel.equals(States.ElevatorStates.LEVEL_4)) {
+            newLevel = States.ElevatorStates.LEVEL_3;
+        } else if (currentLevel.equals(States.ElevatorStates.LEVEL_3)) {
+            newLevel = States.ElevatorStates.LEVEL_2;
+        } else if (currentLevel.equals(States.ElevatorStates.LEVEL_2)) {
+            newLevel = States.ElevatorStates.LEVEL_1;
+        } else {
+            newLevel = States.ElevatorStates.BASE;
+        }
+
+        states.updateElevatorStates(newLevel);
      }
  
      // Returns true when the command should end.

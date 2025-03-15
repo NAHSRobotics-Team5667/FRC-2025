@@ -41,8 +41,8 @@ public class IndexerSubsystem extends SubsystemBase {
 
   /** Creates a new IndexerSubsystem. */
   public IndexerSubsystem() {
-    m_indexerA = new TalonFX(IndexerConstants.INDEX_ID);
-    m_indexerB = new TalonFX(IndexerConstants.INDEX_ID);
+    m_indexerA = new TalonFX(IndexerConstants.INDEX_ID_A);
+    m_indexerB = new TalonFX(IndexerConstants.INDEX_ID_B);
   }
 
 
@@ -60,6 +60,15 @@ public class IndexerSubsystem extends SubsystemBase {
         m_indexerA.set(speed);
         m_indexerB.set(speed);
     }
+
+    public double getSpeed() {
+      return m_indexerA.get();
+  }
+
+  public void stopAllMotors() {
+    m_indexerA.set(0);
+    m_indexerB.set(0);
+}
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
