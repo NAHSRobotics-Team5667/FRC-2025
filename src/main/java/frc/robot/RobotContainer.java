@@ -44,10 +44,11 @@ public class RobotContainer {
   private LEDSubsystem lightSubsystem = LEDSubsystem.getInstance();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
-  private final CommandXboxController m_driverController = new CommandXboxController(OperatorConstants.kDriverControllerPort);
+  private static final CommandXboxController driverXbox = new CommandXboxController(0);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    
     // Configure the trigger bindings
     configureBindings();
   }
@@ -64,4 +65,8 @@ public class RobotContainer {
   private void configureBindings() {
     
   }
+
+  public static CommandXboxController getDriverController() {
+    return driverXbox;
+}
 }
