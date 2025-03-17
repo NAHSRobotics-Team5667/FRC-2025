@@ -12,6 +12,9 @@ public class IndexerCommand extends Command {
     public IndexerCommand() {
         indexer = IndexerSubsystem.getInstance();
         states = StateManager.getInstance();
+
+        // Use addRequirements() here to declare subsystem dependencies.
+        addRequirements(indexer);
     }
 
     // Called when the command is initially scheduled. 

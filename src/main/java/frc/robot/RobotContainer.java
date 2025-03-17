@@ -41,7 +41,7 @@ public class RobotContainer {
   private IndexerSubsystem indexerSubsystem = IndexerSubsystem.getInstance();
   private EndEffectorSubsystem endEffectorSubsystem = EndEffectorSubsystem.getInstance();
   private StateManager stateManager = StateManager.getInstance();
-  private LEDSubsystem lightSubsystem = LEDSubsystem.getInstance();
+ // private LEDSubsystem lightSubsystem = LEDSubsystem.getInstance(); Lights are not on this robot
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private static final CommandXboxController driverXbox = new CommandXboxController(0);

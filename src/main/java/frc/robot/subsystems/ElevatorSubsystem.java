@@ -8,14 +8,10 @@ import frc.robot.Constants.ElevatorConstants;
 /**
  * ElevatorSubsystem.java
  * 
- * Refers to the elevator that adjusts the height of the arm
+ * Refers to the elevator that adjusts the height of the end effector
  *   
  * MOTORS ===========
  * Kraken X60 (2x)
- * 
- * SENSORS ==========
- * 
- * 
  * 
  */
 public class ElevatorSubsystem extends SubsystemBase {
@@ -26,7 +22,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     // ========================================================
     // ============= CLASS & SINGLETON SETUP ==================
 
-    // SINGLETON ----------------------------------------------
+    // CONSTRUCTOR ----------------------------------------------
 
     public ElevatorSubsystem() {
         m_left = new TalonFX(ElevatorConstants.LEFT_MOTOR_ID); //Moves the left chain
@@ -34,6 +30,9 @@ public class ElevatorSubsystem extends SubsystemBase {
         motionMagicLeft = new MotionMagicConfigs();
         motionMagicRight = new MotionMagicConfigs();
     }
+
+    // SINGLETON ----------------------------------------------
+
     private static ElevatorSubsystem instance = null;
 
     public static ElevatorSubsystem getInstance() {
@@ -51,9 +50,9 @@ public class ElevatorSubsystem extends SubsystemBase {
         motionMagicRight.MotionMagicCruiseVelocity = ElevatorConstants.VELOCITY_DOWN; 
         motionMagicRight.MotionMagicAcceleration = ElevatorConstants.ACCELERATION_DOWN; 
         
+        //Apply Motion Magic Configurations
         m_left.getConfigurator().apply(motionMagicLeft);
         m_right.getConfigurator().apply(motionMagicRight);
-        //Calculate rotations needed to move up to the next level
 
         //Create Request to Motors
         final MotionMagicVoltage m_request = new MotionMagicVoltage(0);
@@ -68,6 +67,7 @@ public class ElevatorSubsystem extends SubsystemBase {
         motionMagicRight.MotionMagicCruiseVelocity = ElevatorConstants.VELOCITY_DOWN; 
         motionMagicRight.MotionMagicAcceleration = ElevatorConstants.ACCELERATION_DOWN; 
 
+        //Apply Motion Magic Configurations
         m_left.getConfigurator().apply(motionMagicLeft);
         m_right.getConfigurator().apply(motionMagicRight);
 

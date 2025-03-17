@@ -43,6 +43,10 @@ public class ClimberSubsystem extends SubsystemBase {
     return instance;
   }
 
+  public double getSpeed() {
+    return m_climbMotor.get();
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

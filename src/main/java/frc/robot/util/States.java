@@ -59,4 +59,11 @@ public class States {
         /* State for when the index is turned on */
         INTAKE_OFF
     }
+    
+    public static enum ClimberStates {
+        /* State for when the climber is running */
+        CLIMBER_ON,
+        /* State for when the climber is not running */
+        CLIMBER_OFF
+    }
 }

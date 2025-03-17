@@ -12,6 +12,9 @@ public class IntakeCommand extends Command {
     public IntakeCommand() {
         intake = IntakeSubsystem.getInstance();
         states = StateManager.getInstance();
+        
+        // Use addRequirements() here to declare subsystem dependencies.
+        addRequirements(intake);
     }
 
     // Called when the command is initially scheduled. 

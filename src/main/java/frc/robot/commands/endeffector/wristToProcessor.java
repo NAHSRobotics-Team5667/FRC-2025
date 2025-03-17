@@ -14,6 +14,9 @@ public class wristToProcessor extends Command {
     public wristToProcessor() {
         end_effector = EndEffectorSubsystem.getInstance();
         states = StateManager.getInstance();
+
+        // Use addRequirements() here to declare subsystem dependencies.
+        addRequirements(end_effector);
     }
 
     // Called when the command is initially scheduled.

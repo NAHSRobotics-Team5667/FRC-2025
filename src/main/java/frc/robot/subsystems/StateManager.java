@@ -24,6 +24,10 @@ public class StateManager extends SubsystemBase {
     //Robot State
     private RobotStates desiredRobotState;
 
+    //Climber
+    private ClimberStates climberState;
+    private ClimberSubsystem climber = ClimberSubsystem.getInstance();
+
     //Singleton
     private static StateManager instance = null;
 
@@ -105,6 +109,13 @@ public class StateManager extends SubsystemBase {
         }
     }
 
+    public void updateClimberStates() {
+        if (climber.getSpeed() > 0) {
+            climberState = ClimberStates.CLIMBER_ON;
+        } else {
+            climberState = ClimberStates.CLIMBER_OFF;
+        }
+    }
     /**
      * @return elevator state.
      */
@@ -131,6 +142,13 @@ public class StateManager extends SubsystemBase {
      */
     public IntakeStates getIntakeStates() {
         return intakeState;
+    }
+
+    /**
+     * @return climber state
+     */
+    public ClimberStates getClimberStates() {
+        return climberState;
     }
 
     // ========================================================
