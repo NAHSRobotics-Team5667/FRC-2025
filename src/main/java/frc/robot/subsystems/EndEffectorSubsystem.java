@@ -7,7 +7,10 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
+
+import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.ElevatorConstants;
 import frc.robot.Constants.EndEffectorConstants;
 
 
@@ -69,7 +72,25 @@ public class EndEffectorSubsystem extends SubsystemBase {
       final MotionMagicVoltage m_request = new MotionMagicVoltage(rotations);
       m_clamp.setControl(m_request.withPosition(rotations));
     }
-  
+
+    public double getWristSpeed() {
+      return m_wrist.get();
+    }
+
+    public double getClampSpeed() {
+      return m_clamp.get();
+    }
+
+    public double getWristPosition() {
+      Angle angle = m_wrist.getPosition().getValue();
+      return Double.parseDouble(angle.toString())/360;
+    }
+
+    public double getClampPosition() {
+      Angle angle = m_clamp.getPosition().getValue();
+      return Double.parseDouble(angle.toString())/360;
+    }
+    
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

@@ -9,8 +9,9 @@ import frc.robot.Constants.ElevatorConstants;
 public class ElevatorDown extends Command {
     private ElevatorSubsystem elevator;
     private StateManager states;
-    double targetRotations;
+    private double targetRotations;
     private States.ElevatorStates currentLevel;
+    private double elevatorPosition;
 
     public ElevatorDown() {
         elevator = ElevatorSubsystem.getInstance(); 
@@ -24,14 +25,15 @@ public class ElevatorDown extends Command {
       @Override
       public void initialize() {
          currentLevel = states.getElevatorStates();
+         elevatorPosition = elevator.getPosition();
          targetRotations = switch (currentLevel) {
-             case LEVEL_4 -> elevator.calcRotations(ElevatorConstants.LEVEL_3, ElevatorConstants.LEVEL_4);
+             case LEVEL_4 -> elevator.calcRotations(elevatorPosition, ElevatorConstants.LEVEL_3);
  
-             case LEVEL_3 -> elevator.calcRotations(ElevatorConstants.LEVEL_2, ElevatorConstants.LEVEL_3);
+             case LEVEL_3 -> elevator.calcRotations(elevatorPosition, ElevatorConstants.LEVEL_2);
  
-             case LEVEL_2 -> elevator.calcRotations(ElevatorConstants.LEVEL_1, ElevatorConstants.LEVEL_2);
+             case LEVEL_2 -> elevator.calcRotations(elevatorPosition, ElevatorConstants.LEVEL_1);
  
-             case LEVEL_1 -> elevator.calcRotations(ElevatorConstants.LEVEL_1, 0);
+             case LEVEL_1 -> elevator.calcRotations(elevatorPosition, 0);
  
              default -> 0;
          };

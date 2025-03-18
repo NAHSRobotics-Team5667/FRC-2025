@@ -5,10 +5,12 @@ import frc.robot.subsystems.IntakeSubsystem;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.States.*;
+import frc.robot.Constants;
 
 public class StateManager extends SubsystemBase {
     //Elevator
     private ElevatorStates elevatorState;
+    private ElevatorSubsystem elevator = ElevatorSubsystem.getInstance();
 
     //Elevator
     private EndEffectorStates endEffectorState;
@@ -63,18 +65,18 @@ public class StateManager extends SubsystemBase {
         return instance;
     }
 
-    public void updateElevatorStates(ElevatorStates newState) {
-        if (newState.equals(ElevatorStates.MOVING)) {
+    public void updateElevatorStates() {
+        if (elevator.isMoving()) {
             elevatorState = ElevatorStates.MOVING;
-        } else if (newState.equals(ElevatorStates.LEVEL_1)) {
+        } else if (elevator.getPosition() == Constants.ElevatorConstants.LEVEL_1) {
             elevatorState = ElevatorStates.LEVEL_1;
-        } else if (newState.equals(ElevatorStates.LEVEL_2)) {
+        } else if (elevator.getPosition() == Constants.ElevatorConstants.LEVEL_2) {
             elevatorState = ElevatorStates.LEVEL_2;
-        } else if (newState.equals(ElevatorStates.LEVEL_3)) {
+        } else if (elevator.getPosition() == Constants.ElevatorConstants.LEVEL_3) {
             elevatorState = ElevatorStates.LEVEL_3;
-        } else if (newState.equals(ElevatorStates.LEVEL_4)) {
+        } else if (elevator.getPosition() == Constants.ElevatorConstants.LEVEL_4) {
             elevatorState = ElevatorStates.LEVEL_4;
-        } else if (newState.equals(ElevatorStates.BASE)) {
+        } else {
             elevatorState = ElevatorStates.BASE;
         }
     }

@@ -1,10 +1,6 @@
 package frc.robot.subsystems;
 
-import static edu.wpi.first.units.Units.Meters;
-
-import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.MotionMagicConfigs;
-import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 
@@ -48,7 +44,10 @@ public class ElevatorSubsystem extends SubsystemBase {
         return instance;
     }
 
- 
+    /**
+     * Moves the elevator down to the target rotations
+     * @param targetRotations
+     */
     public void moveDown(double targetRotations) {
         //Set Velocity and Acceleration
         motionMagicLeft.MotionMagicCruiseVelocity = -ElevatorConstants.VELOCITY; 
@@ -66,6 +65,10 @@ public class ElevatorSubsystem extends SubsystemBase {
         m_right.setControl(m_request.withPosition(targetRotations));
     }
 
+    /**
+     * Moves the elevator up to the target rotations
+     * @param targetRotations
+     */
     public void moveUp(double targetRotations) {
         //Set Velocity and Acceleration
         motionMagicLeft.MotionMagicCruiseVelocity = ElevatorConstants.VELOCITY; 
@@ -87,8 +90,21 @@ public class ElevatorSubsystem extends SubsystemBase {
     public double calcRotations(double currentLevel, double nextLevel) {
         return (nextLevel - currentLevel)/(Math.PI * 2 * ElevatorConstants.WHEEL_RADIUS)*ElevatorConstants.GEAR_RATIO;
     }
-
+    /**
+     * Returns the current position of the elevator
+     * @return the current position of the elevator
+     */
     public double getPosition() {
-        return 0; //m_left.getSelectedSensorPosition();
+        Angle angle = m_left.getPosition().getValue(); //Only get the position of one motor - Both motors SHOULD have the same position
+        double rotations = Double.parseDouble(angle.toString())/360;
+        return (rotations * (2*Math.PI)*ElevatorConstants.WHEEL_RADIUS)/ElevatorConstants.GEAR_RATIO;
+    }
+
+    public boolean isMoving() {
+        if (m_left.get() > 0 || m_right.get() > 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
