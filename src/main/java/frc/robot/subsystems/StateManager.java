@@ -116,15 +116,17 @@ public class StateManager extends SubsystemBase {
 
     public void updateIntakeStates() {
         if (intake.getSpeed() > 0) {
-            intakeState =IntakeStates.INTAKE_ON;
+            intakeState = IntakeStates.INTAKE_ON;
         } else {
-            intakeState =IntakeStates.INTAKE_OFF;
+            intakeState = IntakeStates.INTAKE_OFF;
         }
     }
 
     public void updateClimberStates() {
         if (climber.getSpeed() > 0) {
-            climberState = ClimberStates.CLIMBER_ON;
+            climberState = ClimberStates.CLIMBING;
+        } else if (climber.getSpeed() == 0 && climber.getAngle() == Constants.ClimberConstants.ANGLE) {
+            climberState = ClimberStates.HANGING;
         } else {
             climberState = ClimberStates.CLIMBER_OFF;
         }

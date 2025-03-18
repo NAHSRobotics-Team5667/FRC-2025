@@ -2,16 +2,13 @@ package frc.robot.commands.intake;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.StateManager;
 import frc.robot.Constants.IntakeConstants;
 
 public class IntakeCommand extends Command {
     private IntakeSubsystem intake;
-    private StateManager states;
 
     public IntakeCommand() {
         intake = IntakeSubsystem.getInstance();
-        states = StateManager.getInstance();
         
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(intake);
@@ -20,7 +17,7 @@ public class IntakeCommand extends Command {
     // Called when the command is initially scheduled. 
     @Override
     public void initialize() {
-
+        intake.set(0);
     }
 
     @Override
@@ -37,6 +34,7 @@ public class IntakeCommand extends Command {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
+        //TODO: Figure out when the coral has passed entered the robot
         return false;
     }
 }

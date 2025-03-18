@@ -82,13 +82,11 @@ public class EndEffectorSubsystem extends SubsystemBase {
     }
 
     public double getWristPosition() {
-      Angle angle = m_wrist.getPosition().getValue();
-      return Double.parseDouble(angle.toString())/360;
+      return m_wrist.getPosition().getValueAsDouble()/360;
     }
 
     public double getClampPosition() {
-      Angle angle = m_clamp.getPosition().getValue();
-      return Double.parseDouble(angle.toString())/360;
+      return m_clamp.getPosition().getValueAsDouble()/360;
     }
     
   @Override

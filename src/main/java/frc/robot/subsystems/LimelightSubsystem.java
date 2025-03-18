@@ -27,7 +27,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.LimelightConstants;
 
 public class LimelightSubsystem extends SubsystemBase {
-    /** Creates a new ExampleSubsystem. */
     private final ShuffleboardTab m_tab = Shuffleboard.getTab("Limelight");
     GenericEntry customTagHeight;
     GenericEntry customCamHeight;
@@ -52,9 +51,9 @@ public class LimelightSubsystem extends SubsystemBase {
         m_tab.addNumber("Tag tx", this::getTagTx);
         m_tab.addNumber("Tag ty", this::getTagTy);
         m_tab.addNumber("Tag ta", this::getTagTa);
-        m_tab.addNumber("Note tx", this::getNoteTx);
-        m_tab.addNumber("Note ty", this::getNoteTy);
-        m_tab.addNumber("Note ta", this::getNoteTa);
+        m_tab.addNumber("Note tx", this::getCoralTx);
+        m_tab.addNumber("Note ty", this::getCoralTy);
+        m_tab.addNumber("Note ta", this::getCoralTa);
 
         // m_tab.addNumber("CameraPose X", this::getCameraPoseX);
         // m_tab.addNumber("CameraPose Y", this::getCameraPoseY);
@@ -102,12 +101,15 @@ public class LimelightSubsystem extends SubsystemBase {
 
         double id = getAprilTagID();
 
-        if (id == 1.0 || id == 2.0 || id == 5.0 || id == 6.0 || id == 9.0 || id == 10.0) {
-            return 53.38; // height of source and amp april tags
-        } else if (id == 3.0 || id == 4.0 || id == 7.0 || id == 8.0) {
-            return 57.13;
+        if (id == 1.0 || id == 2.0 || id == 12.0 || id == 13.0) {
+            return 53.25; //Coral Station
+        } else if (id == 3.0 || id == 16.0) {
+            return 45.875; //Processor
+        } else if (id == 6.0 || id == 7.0 || id == 8.0 || id == 9.0 || id == 10.0 
+        || id == 11.0 || id == 17.00 || id == 18.0 || id == 19.0 || id == 20.0 || id == 21.0 || id == 22.0) {
+            return 6.875; //Reef
         } else {
-            return 52.00; // remaining tags are for stage april tags
+            return 69; //Barge
         }
     }
 
@@ -153,37 +155,36 @@ public class LimelightSubsystem extends SubsystemBase {
     /**
      * Sets April Tag to read tx, ty data from. Does not affect localization.
      * 
-     * @param priorityID april tag ID to focus on. {RED} speaker: 4 {BLUE} speaker:
-     *                   7
+     * @param priorityID april tag ID to focus on. {RED} reef: 6 - 11 {BLUE} reef: 17 - 22
      */
     public void setPriorityTag(int priorityID) {
         NetworkTableInstance.getDefault().getTable("limelight-tag").getEntry("priorityid").setValue(priorityID);
     }
 
     // ========================================================
-    // =================== NOTE DETECTION =====================
+    // ================== CORAL DETECTION =====================
 
-    public double getNoteTx() {
-        double tx = NetworkTableInstance.getDefault().getTable("limelight-note").getEntry("tx").getDouble(0.0);
+    public double getCoralTx() {
+        double tx = NetworkTableInstance.getDefault().getTable("limelight-coral").getEntry("tx").getDouble(0.0);
         return tx;
     }
 
-    public double getNoteTy() {
-        double ty = NetworkTableInstance.getDefault().getTable("limelight-note").getEntry("ty").getDouble(-40.0);
+    public double getCoralTy() {
+        double ty = NetworkTableInstance.getDefault().getTable("limelight-coral").getEntry("ty").getDouble(-40.0);
         return ty;
     }
 
-    public double getNoteTa() {
-        double ta = NetworkTableInstance.getDefault().getTable("limelight-note").getEntry("ta").getDouble(0.0);
+    public double getCoralTa() {
+        double ta = NetworkTableInstance.getDefault().getTable("limelight-coral").getEntry("ta").getDouble(0.0);
         return ta;
     }
 
     private double predictXDist() {
-        return -Units.inchesToMeters(0.844 * getNoteTx() + 0.59);
+        return -Units.inchesToMeters(0.844 * getCoralTx() + 0.59);
     }
 
     private double predictYDist() {
-        return Units.inchesToMeters(32.2 - (1.95 * getNoteTy()) + (0.208 * Math.pow(getNoteTy(), 2)));
+        return Units.inchesToMeters(32.2 - (1.95 * getCoralTy()) + (0.208 * Math.pow(getCoralTy(), 2)));
     }
 
     private double getDistanceToNote() {

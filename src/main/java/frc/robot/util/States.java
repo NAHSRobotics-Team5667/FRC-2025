@@ -62,8 +62,10 @@ public class States {
     
     public static enum ClimberStates {
         /* State for when the climber is running */
-        CLIMBER_ON,
+        CLIMBING,
         /* State for when the climber is not running */
-        CLIMBER_OFF
+        CLIMBER_OFF,
+        /* State for when the climber has reached its target position */
+        HANGING
     }
 }

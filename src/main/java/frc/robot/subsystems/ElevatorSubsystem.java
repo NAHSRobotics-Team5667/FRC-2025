@@ -4,6 +4,7 @@ import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ElevatorConstants;
@@ -95,9 +96,8 @@ public class ElevatorSubsystem extends SubsystemBase {
      * @return the current position of the elevator
      */
     public double getPosition() {
-        Angle angle = m_left.getPosition().getValue(); //Only get the position of one motor - Both motors SHOULD have the same position
-        double rotations = Double.parseDouble(angle.toString())/360;
-        return (rotations * (2*Math.PI)*ElevatorConstants.WHEEL_RADIUS)/ElevatorConstants.GEAR_RATIO;
+        double angle = m_left.getPosition().getValueAsDouble(); //Only get the position of one motor - Both motors SHOULD have the same position
+        return (Units.degreesToRotations(angle)*ElevatorConstants.WHEEL_RADIUS)/ElevatorConstants.GEAR_RATIO;
     }
 
     public boolean isMoving() {

@@ -20,10 +20,9 @@ import frc.robot.subsystems.StateManager;
 
 import frc.robot.commands.intake.IntakeCommand;
 import frc.robot.commands.indexer.IndexerCommand;
-import frc.robot.commands.endeffector.wristToBarge;
-import frc.robot.commands.endeffector.wristToReef;
-import frc.robot.commands.endeffector.wristToProcessor; 
-import frc.robot.commands.endeffector.wristToIntake;
+import frc.robot.commands.endeffector.moveWrist;
+import frc.robot.commands.endeffector.adjustClampAlgae;
+import frc.robot.commands.endeffector.adjustClampCoral;
 import frc.robot.commands.elevator.ElevatorDown;
 import frc.robot.commands.elevator.ElevatorUp;
 /**

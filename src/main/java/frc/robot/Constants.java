@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.units.measure.Angle;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -106,16 +108,12 @@ public final class Constants {
         public static final int GEAR_RATIO = 125;
 
         // =======================================================
-        // ================= PID VALUES ==========================
-        public static final double CLIMBER_kP = 0;
-        public static final double CLIMBER_kI = 0;
-        public static final double CLIMBER_kD = 0;
-
-        // =======================================================
         // ============== MOTION VALUES ==========================
-        public static final double CLIMBER_MAX_VELOCITY = 0;
-        public static final double CLIMBER_MAX_ACCELERATION = 0;
+        public static final double MAX_VELOCITY = 0;
+        public static final double MAX_ACCELERATION = 0;
         
+
+        public static final double ANGLE = 0;
     }
 
     public static class EndEffectorConstants {

@@ -4,14 +4,17 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.math.util.Units;
 //WPILib imports.
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 //Native file imports.
 import frc.robot.Constants.ClimberConstants;
 
+import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 //CTRE imports.
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -31,19 +34,16 @@ import com.ctre.phoenix6.hardware.TalonFX;
 
 public class ClimberSubsystem extends SubsystemBase {
   private TalonFX m_climbMotor; //Operates the climber wintch.
-  private ProfiledPIDController climbPID;
   private TalonFXConfiguration climbConfig;
+  private MotionMagicConfigs motionMagicClimb;
 
   /** Creates a new ClimberSubsystem. */
   public ClimberSubsystem() {
     m_climbMotor = new TalonFX(ClimberConstants.CLIMBER_ID);
 
-    //PID ------------------------------------------------ 
-    climbPID = new ProfiledPIDController(ClimberConstants.CLIMBER_kP, ClimberConstants.CLIMBER_kI, ClimberConstants.CLIMBER_kD, 
-    new TrapezoidProfile.Constraints(ClimberConstants.CLIMBER_MAX_VELOCITY, ClimberConstants.CLIMBER_MAX_ACCELERATION));
-
     //Motor Configuration --------------------------------
     climbConfig = new TalonFXConfiguration();
+    motionMagicClimb = new MotionMagicConfigs();
     // Set conversion rate from motor shaft rotations to climber rotations
     climbConfig.Feedback.SensorToMechanismRatio = ClimberConstants.GEAR_RATIO;
     m_climbMotor.getConfigurator().apply(climbConfig);
@@ -58,6 +58,22 @@ public class ClimberSubsystem extends SubsystemBase {
     }
     return instance;
   }
+  
+  public void setConfigs(boolean hasClimbed) {
+    if (!hasClimbed) {
+      motionMagicClimb.MotionMagicCruiseVelocity = ClimberConstants.MAX_VELOCITY; 
+      motionMagicClimb.MotionMagicAcceleration = ClimberConstants.MAX_ACCELERATION; 
+    } else {
+      motionMagicClimb.MotionMagicCruiseVelocity = -ClimberConstants.MAX_VELOCITY; 
+      motionMagicClimb.MotionMagicAcceleration = -ClimberConstants.MAX_ACCELERATION; 
+    }
+  }
+
+  public void climb(double angle) {
+    //Apply Motion Magic Configurations
+    m_climbMotor.getConfigurator().apply(motionMagicClimb);
+    m_climbMotor.set(Units.degreesToRotations(angle));
+  }
 
   public double getSpeed() {
     return m_climbMotor.get();
@@ -70,6 +86,11 @@ public class ClimberSubsystem extends SubsystemBase {
   public void setSpeed(double speed) {
     m_climbMotor.set(speed/100);
   }
+
+  public double getAngle() {
+    return Units.rotationsToDegrees(m_climbMotor.getPosition().getValueAsDouble());
+}
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
