@@ -1,8 +1,14 @@
 package frc.robot.subsystems;
 
+import static edu.wpi.first.units.Units.Meters;
+
+import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.MotionMagicConfigs;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
+
+import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ElevatorConstants;
 /**
@@ -45,10 +51,10 @@ public class ElevatorSubsystem extends SubsystemBase {
  
     public void moveDown(double targetRotations) {
         //Set Velocity and Acceleration
-        motionMagicLeft.MotionMagicCruiseVelocity = ElevatorConstants.VELOCITY_DOWN; 
-        motionMagicLeft.MotionMagicAcceleration = ElevatorConstants.ACCELERATION_DOWN; 
-        motionMagicRight.MotionMagicCruiseVelocity = ElevatorConstants.VELOCITY_DOWN; 
-        motionMagicRight.MotionMagicAcceleration = ElevatorConstants.ACCELERATION_DOWN; 
+        motionMagicLeft.MotionMagicCruiseVelocity = -ElevatorConstants.VELOCITY; 
+        motionMagicLeft.MotionMagicAcceleration = -ElevatorConstants.ACCELERATION; 
+        motionMagicRight.MotionMagicCruiseVelocity = -ElevatorConstants.VELOCITY; 
+        motionMagicRight.MotionMagicAcceleration = -ElevatorConstants.ACCELERATION; 
         
         //Apply Motion Magic Configurations
         m_left.getConfigurator().apply(motionMagicLeft);
@@ -62,10 +68,10 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     public void moveUp(double targetRotations) {
         //Set Velocity and Acceleration
-        motionMagicLeft.MotionMagicCruiseVelocity = ElevatorConstants.VELOCITY_DOWN; 
-        motionMagicLeft.MotionMagicAcceleration = ElevatorConstants.ACCELERATION_DOWN; 
-        motionMagicRight.MotionMagicCruiseVelocity = ElevatorConstants.VELOCITY_DOWN; 
-        motionMagicRight.MotionMagicAcceleration = ElevatorConstants.ACCELERATION_DOWN; 
+        motionMagicLeft.MotionMagicCruiseVelocity = ElevatorConstants.VELOCITY; 
+        motionMagicLeft.MotionMagicAcceleration = ElevatorConstants.ACCELERATION; 
+        motionMagicRight.MotionMagicCruiseVelocity = ElevatorConstants.VELOCITY; 
+        motionMagicRight.MotionMagicAcceleration = ElevatorConstants.ACCELERATION; 
 
         //Apply Motion Magic Configurations
         m_left.getConfigurator().apply(motionMagicLeft);
@@ -80,5 +86,9 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     public double calcRotations(double currentLevel, double nextLevel) {
         return (nextLevel - currentLevel)/(Math.PI * 2 * ElevatorConstants.WHEEL_RADIUS)*ElevatorConstants.GEAR_RATIO;
+    }
+
+    public double getPosition() {
+        return 0; //m_left.getSelectedSensorPosition();
     }
 }

@@ -68,12 +68,9 @@ public final class Constants {
 
         // =========================================================================
         // ================= MOTION MAGIC CONFIGURATIONS ===========================
-        public static final double VELOCITY_UP = 0;
-        public static final double VELOCITY_DOWN = 0;
-        public static final double ACCELERATION_UP = 0;
-        public static final double ACCELERATION_DOWN = 0;
-        public static final double JERK_UP = 0;
-        public static final double JERK_DOWN = 0;
+        public static final double VELOCITY = 0;
+        public static final double ACCELERATION = 0;
+        public static final double JERK = 0;
         // =========================================================================
         // ================= CORAL LEVEL HEIGHTS ===================================
         public static final double BASE = 0;
@@ -106,6 +103,19 @@ public final class Constants {
         // =======================================================
         // ================= MOTOR IDS ===========================
         public static final int CLIMBER_ID = 0;
+        public static final int GEAR_RATIO = 125;
+
+        // =======================================================
+        // ================= PID VALUES ==========================
+        public static final double CLIMBER_kP = 0;
+        public static final double CLIMBER_kI = 0;
+        public static final double CLIMBER_kD = 0;
+
+        // =======================================================
+        // ============== MOTION VALUES ==========================
+        public static final double CLIMBER_MAX_VELOCITY = 0;
+        public static final double CLIMBER_MAX_ACCELERATION = 0;
+        
     }
 
     public static class EndEffectorConstants {

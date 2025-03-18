@@ -4,12 +4,15 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
 //WPILib imports.
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 //Native file imports.
 import frc.robot.Constants.ClimberConstants;
 
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
 //CTRE imports.
 import com.ctre.phoenix6.hardware.TalonFX;
 
@@ -28,10 +31,23 @@ import com.ctre.phoenix6.hardware.TalonFX;
 
 public class ClimberSubsystem extends SubsystemBase {
   private TalonFX m_climbMotor; //Operates the climber wintch.
+  private ProfiledPIDController climbPID;
+  private TalonFXConfiguration climbConfig;
 
   /** Creates a new ClimberSubsystem. */
   public ClimberSubsystem() {
     m_climbMotor = new TalonFX(ClimberConstants.CLIMBER_ID);
+
+    //PID ------------------------------------------------ 
+    climbPID = new ProfiledPIDController(ClimberConstants.CLIMBER_kP, ClimberConstants.CLIMBER_kI, ClimberConstants.CLIMBER_kD, 
+    new TrapezoidProfile.Constraints(ClimberConstants.CLIMBER_MAX_VELOCITY, ClimberConstants.CLIMBER_MAX_ACCELERATION));
+
+    //Motor Configuration --------------------------------
+    climbConfig = new TalonFXConfiguration();
+    // Set conversion rate from motor shaft rotations to climber rotations
+    climbConfig.Feedback.SensorToMechanismRatio = ClimberConstants.GEAR_RATIO;
+    m_climbMotor.getConfigurator().apply(climbConfig);
+
   }
 
   private static ClimberSubsystem instance = null;
@@ -47,6 +63,13 @@ public class ClimberSubsystem extends SubsystemBase {
     return m_climbMotor.get();
   }
 
+  public void stopMotor() {
+    m_climbMotor.set(0);
+  }
+
+  public void setSpeed(double speed) {
+    m_climbMotor.set(speed/100);
+  }
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
