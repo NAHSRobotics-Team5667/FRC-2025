@@ -39,13 +39,13 @@ public class wristToIntake extends Command {
          @Override
          public void execute() {
             end_effector.setWristAngle(targetRotations);
-            states.updateEndEffectorStates(States.EndEffectorStates.IS_MOVING);
+
          }
     
              // Called once the command ends or is interrupted.
         @Override
         public void end(boolean interrupted) {
-            states.updateEndEffectorStates(States.EndEffectorStates.AT_INTAKE);
+
         }
     
         // Returns true when the command should end.

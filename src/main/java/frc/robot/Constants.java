@@ -130,6 +130,10 @@ public final class Constants {
         public static final double BARGE_ANGLE = 0;
         public static final double REEF_ANGLE = 0;
         public static final double INTAKE_ANGLE = 0;
+        public static final double HOLD_CORAL = 0;
+        public static final double HOLD_ALGAE = 0;
+        public static final double READY_FOR_CORAL = 0;
+        public static final double READY_FOR_ALGAE = 0;
         
         public static final double WRIST_SPEED = 0;
         public static final double CLAMP_SPEED = 0;

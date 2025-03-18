@@ -10,12 +10,13 @@ public class ElevatorUp extends Command {
     private ElevatorSubsystem elevator;
     private StateManager states;
     private double targetRotations;
-    private States.ElevatorStates currentLevel;
     private double elevatorPosition;
+    private States.ElevatorStates currentState;
 
     public ElevatorUp() {
         elevator = ElevatorSubsystem.getInstance(); 
         states = StateManager.getInstance(); // DO NOT add to addRequirements()
+        currentState = states.getElevatorStates(); // DO NOT add to addRequirements()
 
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(elevator);
@@ -24,43 +25,31 @@ public class ElevatorUp extends Command {
      // Called when the command is initially scheduled.
      @Override
      public void initialize() {
-        currentLevel = states.getElevatorStates();
         elevatorPosition = elevator.getPosition();
-        targetRotations = switch (currentLevel) {
-            case MOVING, LEVEL_4 -> 0;
-
-            case LEVEL_3 -> elevator.calcRotations(elevatorPosition, ElevatorConstants.LEVEL_4);
-
-            case LEVEL_2 -> elevator.calcRotations(elevatorPosition, ElevatorConstants.LEVEL_3);
-
-            case LEVEL_1 -> elevator.calcRotations(elevatorPosition, ElevatorConstants.LEVEL_2);
-
-            default -> elevator.calcRotations(elevatorPosition, ElevatorConstants.LEVEL_1);
-        };
+        if (currentState == States.ElevatorStates.LEVEL_4 || currentState == States.ElevatorStates.MOVING) {
+            targetRotations = 0;
+        } else if (currentState == States.ElevatorStates.LEVEL_3) {
+            targetRotations = elevator.calcRotations(elevatorPosition, ElevatorConstants.LEVEL_4);
+        } else if (currentState == States.ElevatorStates.LEVEL_2) {
+            targetRotations = elevator.calcRotations(elevatorPosition, ElevatorConstants.LEVEL_3);
+        } else if (currentState == States.ElevatorStates.LEVEL_1){
+            targetRotations = elevator.calcRotations(elevatorPosition, ElevatorConstants.LEVEL_2);
+        } else {
+            targetRotations = 0;
+        }
      }
 
      // Called every time the scheduler runs while the command is scheduled.
      @Override
      public void execute() {
         elevator.moveUp(targetRotations);
-        states.updateElevatorStates(States.ElevatorStates.MOVING);
+        states.updateElevatorStates();
      }
 
          // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-        States.ElevatorStates newLevel;
-        if (currentLevel.equals(States.ElevatorStates.LEVEL_3)) {
-            newLevel = States.ElevatorStates.LEVEL_4;
-        } else if (currentLevel.equals(States.ElevatorStates.LEVEL_2)) {
-            newLevel = States.ElevatorStates.LEVEL_3;
-        } else if (currentLevel.equals(States.ElevatorStates.LEVEL_3)) {
-            newLevel = States.ElevatorStates.LEVEL_4;
-        } else {
-            newLevel = States.ElevatorStates.LEVEL_1;
-        }
 
-        states.updateElevatorStates(newLevel);
     }
 
     // Returns true when the command should end.
