@@ -15,7 +15,7 @@ import frc.robot.Constants.IndexerConstants;
  * 
  * MOTORS ===========
  * 
- * Kraken X60 (2x)
+ * Kraken X60 (1x)
  * 
  * SENSORS ==========
  * 
@@ -23,8 +23,7 @@ import frc.robot.Constants.IndexerConstants;
 
 public class IndexerSubsystem extends SubsystemBase {
 
-  TalonFX m_indexerA; 
-  TalonFX m_indexerB;   
+  TalonFX m_indexer; 
 
     // ========================================================
     // ============= CLASS & SINGLETON SETUP ==================
@@ -41,8 +40,7 @@ public class IndexerSubsystem extends SubsystemBase {
 
   /** Creates a new IndexerSubsystem. */
   public IndexerSubsystem() {
-    m_indexerA = new TalonFX(IndexerConstants.INDEX_ID_A);
-    m_indexerB = new TalonFX(IndexerConstants.INDEX_ID_B);
+    m_indexer = new TalonFX(IndexerConstants.INDEX_ID_A);
   }
 
 
@@ -57,17 +55,15 @@ public class IndexerSubsystem extends SubsystemBase {
      */
     public void set(double speed) {
         speed/= 100;
-        m_indexerA.set(speed);
-        m_indexerB.set(speed);
+        m_indexer.set(speed);
     }
 
     public double getSpeed() {
-      return m_indexerA.get();
+      return m_indexer.get();
   }
 
-  public void stopAllMotors() {
-    m_indexerA.set(0);
-    m_indexerB.set(0);
+  public void stopMotor() {
+    m_indexer.set(0);
 }
   @Override
   public void periodic() {

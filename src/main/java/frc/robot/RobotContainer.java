@@ -32,8 +32,6 @@ import frc.robot.subsystems.StateManager;
 import frc.robot.commands.intake.IntakeCommand;
 import frc.robot.commands.indexer.IndexerCommand;
 import frc.robot.commands.endeffector.moveWrist;
-import frc.robot.commands.endeffector.adjustClampAlgae;
-import frc.robot.commands.endeffector.adjustClampCoral;
 import frc.robot.commands.elevator.ElevatorDown;
 import frc.robot.commands.elevator.ElevatorUp;
 /**
@@ -112,6 +110,7 @@ public class RobotContainer {
     joystick.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 
     drivetrain.registerTelemetry(logger::telemeterize);
+    
   }
 
   public static CommandXboxController getDriverController() {

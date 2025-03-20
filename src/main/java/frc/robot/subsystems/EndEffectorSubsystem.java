@@ -23,7 +23,7 @@ import frc.robot.Constants.EndEffectorConstants;
  * 
  * Kraken X60 - Wrist
  * 
- * Kraken X44 - Clamp
+ * Kraken X44 - Wheels
  * 
  * SENSORS ==========
  * 
@@ -31,9 +31,8 @@ import frc.robot.Constants.EndEffectorConstants;
 
 public class EndEffectorSubsystem extends SubsystemBase {
   private TalonFX m_wrist;
-  private TalonFX m_clamp;
+  private TalonFX m_wheels;
   private static MotionMagicConfigs motionMagicWrist;
-  private static MotionMagicConfigs motionMagicClamp;
 
     // ========================================================
     // ============= CLASS & SINGLETON SETUP ==================
@@ -44,9 +43,8 @@ public class EndEffectorSubsystem extends SubsystemBase {
 
   public EndEffectorSubsystem() {
     m_wrist = new TalonFX(EndEffectorConstants.WRIST_ID);
-    m_clamp = new TalonFX(EndEffectorConstants.CLAMP_ID);
+    m_wheels = new TalonFX(EndEffectorConstants.WHEELS_ID);
     motionMagicWrist = new MotionMagicConfigs();
-    motionMagicClamp = new MotionMagicConfigs();
   }
 
   public static EndEffectorSubsystem getInstance() {
@@ -66,27 +64,25 @@ public class EndEffectorSubsystem extends SubsystemBase {
       m_wrist.setControl(m_request.withPosition(rotations));
     }
 
-    public void adjustClamp(double rotations) {
-      motionMagicClamp.MotionMagicCruiseVelocity = EndEffectorConstants.CLAMP_SPEED; 
-      m_wrist.getConfigurator().apply(motionMagicClamp);
-      final MotionMagicVoltage m_request = new MotionMagicVoltage(rotations);
-      m_clamp.setControl(m_request.withPosition(rotations));
-    }
-
     public double getWristSpeed() {
       return m_wrist.get();
-    }
-
-    public double getClampSpeed() {
-      return m_clamp.get();
     }
 
     public double getWristPosition() {
       return m_wrist.getPosition().getValueAsDouble()/360;
     }
 
-    public double getClampPosition() {
-      return m_clamp.getPosition().getValueAsDouble()/360;
+    public void setWheelSpeed(double speed) {
+      double motorSpeed = speed/100;
+      m_wheels.set(motorSpeed);
+    }
+    
+    public double getWheelSpeed() {
+      return m_wheels.get();
+    }
+
+    public void stopWheels() {
+      m_wheels.set(0);
     }
     
   @Override

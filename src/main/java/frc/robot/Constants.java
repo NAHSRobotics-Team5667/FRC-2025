@@ -90,6 +90,7 @@ public final class Constants {
         // =======================================================
         // ================= MOTOR IDS ===========================
         public static final int INTAKE_ID = 0;
+        public static final int INTAKE_PIVOT_ID = 0;
         public static final int INTAKE_SPEED = 0;
     }
 
@@ -119,7 +120,7 @@ public final class Constants {
     public static class EndEffectorConstants {
         // =======================================================
         // ================= MOTOR IDS ===========================
-        public static final int CLAMP_ID = 0;
+        public static final int WHEELS_ID = 0;
         public static final int WRIST_ID = 0;
 
         // =======================================================
@@ -134,7 +135,7 @@ public final class Constants {
         public static final double READY_FOR_ALGAE = 0;
         
         public static final double WRIST_SPEED = 0;
-        public static final double CLAMP_SPEED = 0;
+        public static final double WHEEL_SPEED = 0;
     }
 
     public static class LimelightConstants {
