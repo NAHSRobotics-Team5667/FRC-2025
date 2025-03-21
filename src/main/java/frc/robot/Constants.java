@@ -84,12 +84,15 @@ public final class Constants {
         // ============================ MISC =======================================
         public static final double GEAR_RATIO = 12;
         public static final double WHEEL_RADIUS = 0.827;
+
+        public static final int BOTTOM_SWITCH_ID = 0;
+        public static final int TOP_SWITCH_ID = 0;
     }
 
     public static class IntakeConstants {
         // =======================================================
         // ================= MOTOR IDS ===========================
-        public static final int INTAKE_ID = 0;
+        public static final int INTAKE_WHEEL_ID = 0;
         public static final int INTAKE_PIVOT_ID = 0;
         public static final int INTAKE_SPEED = 0;
     }
@@ -100,6 +103,7 @@ public final class Constants {
         public static final int INDEX_ID_A = 0;
         public static final int INDEX_ID_B = 0;
         public static final int INTAKE_SPEED = 0;
+        public static final int BEAM_BREAK_PORT = 0;
     }
 
     public static class ClimberConstants {

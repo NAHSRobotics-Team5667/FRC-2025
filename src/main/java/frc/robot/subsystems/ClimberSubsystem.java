@@ -10,6 +10,7 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 //WPILib imports.
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 //Native file imports.
 import frc.robot.Constants.ClimberConstants;
@@ -94,5 +95,16 @@ public class ClimberSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    
+    // Add debugging information to SmartDashboard
+    SmartDashboard.putNumber("Climber Angle (degrees)", getAngle());
+    SmartDashboard.putNumber("Climber Speed", getSpeed());
+    SmartDashboard.putNumber("Climber Current", m_climbMotor.getSupplyCurrent().getValueAsDouble());
+    SmartDashboard.putBoolean("Climber At Target", Math.abs(getSpeed()) < 0.01);
+    
+    // Log any faults that might occur.
+    if (m_climbMotor.getFault_Hardware().getValue()) {
+      System.out.println("[CLIMBER] Hardware fault detected!");
+    }
   }
 }

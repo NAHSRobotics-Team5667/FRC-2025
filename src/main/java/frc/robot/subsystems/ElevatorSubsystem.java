@@ -5,9 +5,11 @@ import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ElevatorConstants;
+
 /**
  * ElevatorSubsystem.java
  * 
@@ -22,16 +24,27 @@ public class ElevatorSubsystem extends SubsystemBase {
     private TalonFX m_right; //Moves the right chain
     private MotionMagicConfigs motionMagicLeft;
     private MotionMagicConfigs motionMagicRight;
+    private DigitalInput bottomSwitch;
+    private DigitalInput topSwitch;
+
+    private boolean topWasHit; //This is incase the robot does hit, it will stay permanent, as opposed to reseting every periodic run.
+    private boolean bottomWasHit;
+
     // ========================================================
     // ============= CLASS & SINGLETON SETUP ==================
 
     // CONSTRUCTOR ----------------------------------------------
 
     public ElevatorSubsystem() {
-        m_left = new TalonFX(ElevatorConstants.LEFT_MOTOR_ID); //Moves the left chain
-        m_right = new TalonFX(ElevatorConstants.RIGHT_MOTOR_ID); //Moves the right chain
-        motionMagicLeft = new MotionMagicConfigs();
-        motionMagicRight = new MotionMagicConfigs();
+
+        m_left = new TalonFX(ElevatorConstants.LEFT_MOTOR_ID); //Sets the motor ID for the left motor.
+        m_right = new TalonFX(ElevatorConstants.RIGHT_MOTOR_ID); //Sets the motor ID for the right motor.
+
+        motionMagicLeft = new MotionMagicConfigs(); //Creates a new Motion Magic Config for the left motor.
+        motionMagicRight = new MotionMagicConfigs(); //Creates a new Motion Magic Config for the right motor.
+
+        bottomSwitch = new DigitalInput(ElevatorConstants.BOTTOM_SWITCH_ID); //Creates a hard limit switch for the elevator.
+        topSwitch = new DigitalInput(ElevatorConstants.TOP_SWITCH_ID); //Creates a hard limit switch for the elevator.
     }
 
     // SINGLETON ----------------------------------------------
@@ -64,6 +77,24 @@ public class ElevatorSubsystem extends SubsystemBase {
         final MotionMagicVoltage m_request = new MotionMagicVoltage(0);
         m_left.setControl(m_request.withPosition(targetRotations)); 
         m_right.setControl(m_request.withPosition(targetRotations));
+    }
+
+
+    /**
+     * Resets the elevator back down to the starting position.
+     */
+    public void reset() {
+        //TODO: Implement reset functionality.
+        // There's no "soft limit" sensor to get this data, so this will need to be solved.
+    }
+
+
+    public boolean isBottomSwitchHit() {
+        return !bottomSwitch.get();
+    }
+
+    public boolean isTopSwitchHit() {
+        return !topSwitch.get();
     }
 
     /**
@@ -105,6 +136,34 @@ public class ElevatorSubsystem extends SubsystemBase {
             return true;
         } else {
             return false;
+        }
+    }
+
+    /*
+     * Stops all motors.
+     */
+    public void stopAllMotors() {
+        m_left.set(0);
+        m_right.set(0);
+    }
+
+    public void periodic() {
+        SmartDashboard.putBoolean("Bottom Switch", isBottomSwitchHit());
+        SmartDashboard.putBoolean("Top Switch", isTopSwitchHit());
+
+        SmartDashboard.putNumber("Elevator Position", getPosition());
+        SmartDashboard.putBoolean("Is Elevator Moving", isMoving());
+
+        SmartDashboard.putBoolean("Was Bottom Hit?", bottomWasHit);
+        SmartDashboard.putBoolean("Was Top Hit?", topWasHit);
+
+        // These hard limits are in place to prevent damage to the elevator.
+        if (isBottomSwitchHit() && bottomWasHit == false) {
+            bottomWasHit = true;
+        }
+
+        if (isTopSwitchHit() && topWasHit == false) {
+            topWasHit = true;
         }
     }
 }
