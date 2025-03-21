@@ -8,31 +8,29 @@ import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 
-import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.ElevatorConstants;
 import frc.robot.Constants.EndEffectorConstants;
 
 
 /**
  * EndEffectorSubsystem.java
  * 
- * Refers to the robot's game piece manipulator
+ * Refers to the robot's game piece manipulator.
  * 
  * MOTORS ===========
  * 
- * Kraken X60 - Wrist
+ * Kraken X60 - Wrist - Turns actual angle of end effector.
  * 
- * Kraken X44 - Wheels
+ * Kraken X44 - Wheels - Turns on the green wheels that takes in game pieces.
  * 
  * SENSORS ==========
  * 
  **/
 
 public class EndEffectorSubsystem extends SubsystemBase {
-  private TalonFX m_wrist;
-  private TalonFX m_wheels;
-  private static MotionMagicConfigs motionMagicWrist;
+    private TalonFX m_wrist;
+    private TalonFX m_wheels;
+    private static MotionMagicConfigs motionMagicWrist;
 
     // ========================================================
     // ============= CLASS & SINGLETON SETUP ==================
@@ -41,18 +39,18 @@ public class EndEffectorSubsystem extends SubsystemBase {
 
     private static EndEffectorSubsystem instance = null;
 
-  public EndEffectorSubsystem() {
-    m_wrist = new TalonFX(EndEffectorConstants.WRIST_ID);
-    m_wheels = new TalonFX(EndEffectorConstants.WHEELS_ID);
-    motionMagicWrist = new MotionMagicConfigs();
-  }
+    public EndEffectorSubsystem() {
+      m_wrist = new TalonFX(EndEffectorConstants.WRIST_ID);
+      m_wheels = new TalonFX(EndEffectorConstants.WHEELS_ID);
+      motionMagicWrist = new MotionMagicConfigs();
+    }
 
-  public static EndEffectorSubsystem getInstance() {
-    if (instance == null)
-        instance = new EndEffectorSubsystem();
+    public static EndEffectorSubsystem getInstance() {
+      if (instance == null)
+          instance = new EndEffectorSubsystem();
 
-    return instance;
-}
+      return instance;
+    }
 
     // ========================================================
     // ================== MOTOR ACTIONS ======================-
@@ -69,7 +67,7 @@ public class EndEffectorSubsystem extends SubsystemBase {
     }
 
     public double getWristPosition() {
-      return m_wrist.getPosition().getValueAsDouble()/360;
+      return m_wrist.getPosition().getValueAsDouble() / 360;
     }
 
     public void setWheelSpeed(double speed) {

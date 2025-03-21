@@ -1,8 +1,5 @@
 package frc.robot.subsystems;
 
-import frc.robot.subsystems.IndexerSubsystem;
-import frc.robot.subsystems.IntakeSubsystem;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.States.*;
 import frc.robot.Constants;
@@ -83,7 +80,27 @@ public class StateManager extends SubsystemBase {
     }
 
     public void updateEndEffectorStates() {
-       
+        if (endEffector.getWheelSpeed() > 0 || endEffector.getWristSpeed() > 0) {
+            endEffectorState = EndEffectorStates.IS_MOVING;
+        } else if (endEffector.getWristPosition() == Constants.EndEffectorConstants.REEF_ANGLE) {  
+            endEffectorState = EndEffectorStates.AT_REEF;
+        } else if (endEffector.getWristPosition() == Constants.EndEffectorConstants.PROCESSOR_ANGLE) {
+            endEffectorState = EndEffectorStates.AT_PROCESSOR;
+        } else if (endEffector.getWristPosition() == Constants.EndEffectorConstants.BARGE_ANGLE) {
+            endEffectorState = EndEffectorStates.AT_BARGE;
+        } else if (endEffector.getWristPosition() == Constants.EndEffectorConstants.INTAKE_ANGLE) {
+            endEffectorState = EndEffectorStates.AT_INTAKE;
+        } else if (endEffector.getWristPosition() == Constants.EndEffectorConstants.HOLD_CORAL) {
+            endEffectorState = EndEffectorStates.HOLDING_CORAL;
+        } else if (endEffector.getWristPosition() == Constants.EndEffectorConstants.HOLD_ALGAE) {
+            endEffectorState = EndEffectorStates.HOLDING_ALGAE;
+        } else if (endEffector.getWristPosition() == Constants.EndEffectorConstants.READY_FOR_CORAL) {
+            endEffectorState = EndEffectorStates.READY_FOR_CORAL;
+        } else if (endEffector.getWristPosition() == Constants.EndEffectorConstants.READY_FOR_ALGAE) {
+            endEffectorState = EndEffectorStates.READY_FOR_ALGAE;
+        } else {
+
+        }
     }
 
     public void updateIndexerStates() {
@@ -95,7 +112,7 @@ public class StateManager extends SubsystemBase {
     }
 
     public void updateIntakeStates() {
-        if (intake.getSpeed() > 0) {
+        if (intake.getWheelSpeed() > 0) {
             intakeState = IntakeStates.INTAKE_ON;
         } else {
             intakeState = IntakeStates.INTAKE_OFF;
