@@ -19,6 +19,7 @@ import frc.robot.Constants.IntakeConstants;
  **/
 public class IntakeSubsystem extends SubsystemBase {
     private TalonFX m_intake;
+    private TalonFX m_intakePivot;
    
     // ========================================================
     // ============= CLASS & SINGLETON SETUP ==================
@@ -35,7 +36,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public IntakeSubsystem() {
         m_intake = new TalonFX(IntakeConstants.INTAKE_ID);
- 
+        m_intakePivot = new TalonFX(IntakeConstants.INTAKE_PIVOT_ID);
     }
 
     // ========================================================
@@ -56,5 +57,16 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public void stopMotor() {
         m_intake.set(0);
+    }
+    
+    // ========================================================
+    // ===================== SENSORS ==========================
+
+    /**
+     * @return whether intake is running.
+     */
+
+    public boolean isIntakeRunning() {
+        return m_intake.get() != 0;
     }
 }

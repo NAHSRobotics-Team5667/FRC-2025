@@ -83,27 +83,7 @@ public class StateManager extends SubsystemBase {
     }
 
     public void updateEndEffectorStates() {
-        if (endEffector.getClampSpeed() > 0 || endEffector.getWristSpeed() > 0) {
-            endEffectorState = EndEffectorStates.IS_MOVING;
-        } else if (endEffector.getWristPosition() == Constants.EndEffectorConstants.REEF_ANGLE) {  
-            endEffectorState = EndEffectorStates.AT_REEF;
-        } else if (endEffector.getWristPosition() == Constants.EndEffectorConstants.PROCESSOR_ANGLE) {
-            endEffectorState = EndEffectorStates.AT_PROCESSOR;
-        } else if (endEffector.getWristPosition() == Constants.EndEffectorConstants.BARGE_ANGLE) {
-            endEffectorState = EndEffectorStates.AT_BARGE;
-        } else if (endEffector.getWristPosition() == Constants.EndEffectorConstants.INTAKE_ANGLE) {
-            endEffectorState = EndEffectorStates.AT_INTAKE;
-        } else if (endEffector.getClampPosition() == Constants.EndEffectorConstants.HOLD_CORAL) {
-            endEffectorState = EndEffectorStates.HOLDING_CORAL;
-        } else if (endEffector.getClampPosition() == Constants.EndEffectorConstants.HOLD_ALGAE) {
-            endEffectorState = EndEffectorStates.HOLDING_ALGAE;
-        } else if (endEffector.getClampPosition() == Constants.EndEffectorConstants.READY_FOR_CORAL) {
-            endEffectorState = EndEffectorStates.READY_FOR_CORAL;
-        } else if (endEffector.getClampPosition() == Constants.EndEffectorConstants.READY_FOR_ALGAE) {
-            endEffectorState = EndEffectorStates.READY_FOR_ALGAE;
-        } else {
-
-        }
+       
     }
 
     public void updateIndexerStates() {
