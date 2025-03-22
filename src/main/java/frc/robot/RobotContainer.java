@@ -12,6 +12,8 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 
@@ -35,6 +37,14 @@ public class RobotContainer {
 
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
+    private double applyDeadband(double value, double deadband) {
+        if (Math.abs(value) > deadband) {
+            return value;
+        } else {
+            return 0;
+        }
+    }
+
     public RobotContainer() {
         configureBindings();
     }
@@ -45,16 +55,21 @@ public class RobotContainer {
         drivetrain.setDefaultCommand(
             // Drivetrain will execute this command periodically
             drivetrain.applyRequest(() ->
-                drive.withVelocityX(-joystick.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
-                    .withVelocityY(-joystick.getLeftX() * MaxSpeed) // Drive left with negative X (left)
-                    .withRotationalRate(-joystick.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
+                drive.withVelocityX(-applyDeadband(joystick.getLeftY(), 0.1) * MaxSpeed) // Drive forward with negative Y (forward)
+                    .withVelocityY(-applyDeadband(joystick.getLeftX(), 0.1) * MaxSpeed) // Drive left with negative X (left)
+                    .withRotationalRate(-applyDeadband(joystick.getRightX(), 0.1) * MaxAngularRate) // Drive counterclockwise with negative X (left)
             )
         );
 
-        joystick.a().whileTrue(drivetrain.applyRequest(() -> brake));
-        joystick.b().whileTrue(drivetrain.applyRequest(() ->
-            point.withModuleDirection(new Rotation2d(-joystick.getLeftY(), -joystick.getLeftX()))
-        ));
+        joystick.a().whileTrue(drivetrain.applyRequest(() -> {
+            System.out.println("Joystick A pressed");
+            return brake;
+        }));
+
+        joystick.b().whileTrue(drivetrain.applyRequest(() -> {
+            System.out.println("Joystick B pressed");
+            return point.withModuleDirection(new Rotation2d(-applyDeadband(joystick.getLeftY(), 0.1), -applyDeadband(joystick.getLeftX(), 0.1)));
+        }));
 
         // Run SysId routines when holding back/start and X/Y.
         // Note that each routine should be run exactly once in a single log.
@@ -63,13 +78,24 @@ public class RobotContainer {
         joystick.start().and(joystick.y()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kForward));
         joystick.start().and(joystick.x()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
 
-        // reset the field-centric heading on left bumper press
-        joystick.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
+        // reset the field-centric heading on left bumper press.
+        joystick.leftBumper().onTrue(drivetrain.runOnce(() -> {
+            drivetrain.seedFieldCentric();
+            System.out.println("[SWERVE SYSTEM]: FOC was reset.");
+        }));
 
         drivetrain.registerTelemetry(logger::telemeterize);
     }
 
     public Command getAutonomousCommand() {
-        return Commands.print("No autonomous command configured");
+        return new SequentialCommandGroup(
+            drivetrain.applyRequest(() -> 
+                new SwerveRequest.FieldCentric()
+                    .withVelocityX((MaxSpeed * 0.125)) // Drive forward at max speed
+                    .withVelocityY(0)
+                    .withRotationalRate(0)
+            ).withTimeout(1.5), // Run for 3 seconds
+            new WaitCommand(0) // Ensure the command ends cleanly
+        );
     }
 }
