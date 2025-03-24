@@ -12,7 +12,7 @@ public class ElevatorSubsystem implements Subsystem {
 
     public ElevatorSubsystem() {
         m_controlMotor1 = new TalonFX(ElevatorConstants.CONTROL_MOTOR_1_ID);
-        m_controlMotor2 = new TalonFX(ElevatorConstants.COnTROL_MOTOR_2_ID);
+        m_controlMotor2 = new TalonFX(ElevatorConstants.CONTROL_MOTOR_2_ID);
     }
 
     /**
