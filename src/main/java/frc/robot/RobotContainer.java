@@ -58,7 +58,7 @@ public class RobotContainer {
     //===========================================================================
     // OTHER SUBSYSTEMS:
 
-    private final DigitalInput m_beamBreak = new DigitalInput(IndexerConstants.BEAM_BREAK_PORT_ID); // DIO Port for the Beam Break Sensor.
+    private static final DigitalInput m_beamBreak = new DigitalInput(IndexerConstants.BEAM_BREAK_PORT_ID); // DIO Port for the Beam Break Sensor.
     
     /**
      * Subsystems:

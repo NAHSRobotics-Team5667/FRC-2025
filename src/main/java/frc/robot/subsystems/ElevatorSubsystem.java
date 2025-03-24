@@ -1,57 +1,95 @@
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj2.command.Subsystem;
-
-import frc.robot.Constants.ElevatorConstants;
-
+/**
+ * ElevatorSubsystem.java
+ * 
+ * Refers to the elevator that adjusts the height of the end effector
+ *   
+ * MOTORS ===========
+ * Kraken X60 (2x)
+ * 
+ */
+//CTRE Imports
+import com.ctre.phoenix6.configs.MotionMagicConfigs;
+import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 
-public class ElevatorSubsystem implements Subsystem {
-    private TalonFX m_controlMotor1; //This will hold the new rise motor.
-    private TalonFX m_controlMotor2; //This will hold the new rise motor.
+//WPILib Imports
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import static edu.wpi.first.units.Units.Rotations;
+
+//Local Imports
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.ElevatorConstants;
+
+
+public class ElevatorSubsystem extends SubsystemBase {
+    private TalonFX m_left;
+    private TalonFX m_right;
+    private MotionMagicConfigs MMconfigs;
 
     public ElevatorSubsystem() {
-        m_controlMotor1 = new TalonFX(ElevatorConstants.CONTROL_MOTOR_1_ID);
-        m_controlMotor2 = new TalonFX(ElevatorConstants.CONTROL_MOTOR_2_ID);
-    }
-
-    /**
-     * This will stop all running motors. Can be used in emergencies.
-     */
-    public void stopAllMotors() {
-        m_controlMotor1.set(0); // Stop the first motor.
-        m_controlMotor2.set(0); // Stop the second motor.
-    }
-
-    /**
-     * This will get speeds for motor number 1.
-     */
-    public double getMotor1Speed() {
-        return m_controlMotor1.get();
-    }
-
-    /**
-     * This will get speeds for motor number 2.
-     */
-    public double getMotor2Speed() {
-        return m_controlMotor2.get();
-    }
-
-    /**
-     * This will set the motor speed for motor number 1.
-     */
-    public void setMotor1Speed(double speed) {
-        m_controlMotor1.set(speed);
-    }
-
-    /**
-     * This will set the motor speed for motor number 2.
-     */
-    public void setMotor2Speed(double speed) {
-        m_controlMotor2.set(speed);
-    }
-
-    public void periodic(){
+        m_left = new TalonFX(ElevatorConstants.LEFT_MOTOR_ID);
+        m_right = new TalonFX(ElevatorConstants.RIGHT_MOTOR_ID);
         
+        MMconfigs = new MotionMagicConfigs();
+
+        MMconfigs.MotionMagicCruiseVelocity = ElevatorConstants.VELOCITY;
+        MMconfigs.MotionMagicAcceleration = ElevatorConstants.ACCELERATION;
+
+        m_left.getConfigurator().apply(MMconfigs);
+        m_right.getConfigurator().apply(MMconfigs);
+    }
+
+    private static ElevatorSubsystem instance = null;
+
+    public static ElevatorSubsystem getInstance() {
+        if (instance == null)
+            instance = new ElevatorSubsystem();
+
+        return instance;
+    }
+
+    /**
+     * This method will move the elevator to a desired position.
+     * @param targetPosition
+     */
+    public void moveElevator(double targetPosition) {
+        final MotionMagicVoltage request = new MotionMagicVoltage(0);
+        m_left.setControl(request.withPosition(targetPosition));
+    }
+
+    /**
+     * This method will get the elevator's position.
+     * @param targetPosition
+     */
+    public double getElevatorPosition() {
+        double rotations = m_left.getPosition().getValue().in(Rotations);
+        return (rotations * ElevatorConstants.WHEEL_RADIUS)/ElevatorConstants.GEAR_RATIO;
+    }
+
+    /*
+     * This method will check if the elevator is currently in motion.
+     */
+    public boolean isMoving() {
+        if (m_left.get() > 0 && m_right.get() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * This method will stop the elevator motors.
+     */
+    public void stop() {
+        m_left.set(0);
+        m_right.set(0);
+    }
+
+    @Override
+    public void periodic() {
+        SmartDashboard.putNumber("Elevator Position", getElevatorPosition());
+        SmartDashboard.putBoolean("Elevator Moving", isMoving());
     }
 }

@@ -5,6 +5,21 @@ import edu.wpi.first.wpilibj.DigitalInput;
 
 import com.ctre.phoenix6.hardware.TalonFX;
 
+/**
+ * InderSubsystem.java
+ * 
+ * Refers to the robot's index
+ * 
+ * MOTORS ===========
+ * 
+ * Kraken X60 (1x)
+ * 
+ * SENSORS ==========
+ * 
+ * Beam Break (1x)
+ * 
+ **/
+
 public class IndexerSubsystem implements Subsystem {
     private final DigitalInput m_beamBreak;
     

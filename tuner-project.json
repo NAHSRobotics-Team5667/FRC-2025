@@ -6,8 +6,8 @@
         "ModuleName": "Front Left",
         "ModuleId": 0,
         "Encoder": {
-          "Id": 12,
-          "Name": "Front-Left CANCoder (12)",
+          "Id": 30,
+          "Name": "Front-Left CANCoder (30)",
           "Model": "CANCoder",
           "CANbus": "rio",
           "CANbusFriendly": "",
@@ -58,8 +58,8 @@
         "ModuleName": "Front Right",
         "ModuleId": 1,
         "Encoder": {
-          "Id": 22,
-          "Name": "Front-Right CANCoder (22)",
+          "Id": 31,
+          "Name": "Front-Right CANCoder (31)",
           "Model": "CANCoder vers. H",
           "CANbus": "rio",
           "CANbusFriendly": "",
@@ -67,8 +67,8 @@
           "IsStandaloneFx": false
         },
         "SteerMotor": {
-          "Id": 20,
-          "Name": "Front-Right Steering (20)",
+          "Id": 12,
+          "Name": "Front-Right Steering (12)",
           "Model": "Talon FX vers. C",
           "CANbus": "rio",
           "CANbusFriendly": "",
@@ -81,8 +81,8 @@
           "IsStandaloneFx": false
         },
         "DriveMotor": {
-          "Id": 21,
-          "Name": "Front-Right Driving (21)",
+          "Id": 13,
+          "Name": "Front-Right Driving (13)",
           "Model": "Talon FX vers. C",
           "CANbus": "rio",
           "CANbusFriendly": "",
@@ -110,8 +110,8 @@
         "ModuleName": "Back Left",
         "ModuleId": 2,
         "Encoder": {
-          "Id": 42,
-          "Name": "Back-Left CANCoder (42)",
+          "Id": 33,
+          "Name": "Back-Left CANCoder (33)",
           "Model": "CANCoder",
           "CANbus": "rio",
           "CANbusFriendly": "",
@@ -119,8 +119,8 @@
           "IsStandaloneFx": false
         },
         "SteerMotor": {
-          "Id": 40,
-          "Name": "Back-Left Steering (40)",
+          "Id": 16,
+          "Name": "Back-Left Steering (16)",
           "Model": "Talon FX vers. C",
           "CANbus": "rio",
           "CANbusFriendly": "",
@@ -133,8 +133,8 @@
           "IsStandaloneFx": false
         },
         "DriveMotor": {
-          "Id": 41,
-          "Name": "Back-Left Driving (41)",
+          "Id": 15,
+          "Name": "Back-Left Driving (15)",
           "Model": "Talon FX vers. C",
           "CANbus": "rio",
           "CANbusFriendly": "",
@@ -171,8 +171,8 @@
           "IsStandaloneFx": false
         },
         "SteerMotor": {
-          "Id": 30,
-          "Name": "Back-Right Steering (30)",
+          "Id": 14,
+          "Name": "Back-Right Steering (14)",
           "Model": "Talon FX vers. C",
           "CANbus": "rio",
           "CANbusFriendly": "",
@@ -185,8 +185,8 @@
           "IsStandaloneFx": false
         },
         "DriveMotor": {
-          "Id": 31,
-          "Name": "Back-Right Driving (31)",
+          "Id": 15,
+          "Name": "Back-Right Driving (15)",
           "Model": "Talon FX vers. C",
           "CANbus": "rio",
           "CANbusFriendly": "",
@@ -214,8 +214,8 @@
     "SwerveOptions": {
       "kSpeedAt12Volts": 5.958135187288162,
       "Gyro": {
-        "Id": 51,
-        "Name": "Pigeon 2.0 (51)",
+        "Id": 50,
+        "Name": "Pigeon 2.0 (50)",
         "Model": "Pigeon 2 vers. S",
         "CANbus": "rio",
         "CANbusFriendly": "",

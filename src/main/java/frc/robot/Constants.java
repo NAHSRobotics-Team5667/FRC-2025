@@ -1,6 +1,44 @@
 package frc.robot;
 
-public class Constants {
+/**
+ * CAN IDs IN ORDER:
+ * 
+ *  10 - Front Left Steer
+ *  11 - Front Left Drive
+ *  12 - Front Right Steer
+ *  13 - Front Right Drive
+ *  14 - Back Right Steer
+ *  15 - Back Right Drive
+ *  16 - Back Left Steer
+ *  17 - Back Left Drive
+ * 
+ *  20 - Intake Roller Motor
+ *  21 - Indexer Motor
+ *  22 - Elevator Left Drive
+ *  23 - Elevator Right Drive
+ *  24 - EndEffector Wrist Motor
+ *  25 - EndEffector Wheel Motor
+ *  26 - Intake Pivot Motor
+ *  
+ *  30 - Front Left CANCoder
+ *  31 - Front Right CANCoder
+ *  32 - Back Right CANCoder
+ *  33 - Back Left CANCoder
+ * 
+ *  50 - Pigeon 2.0 IMU
+ */
+
+/**
+ * LEVELS:
+ * 
+ * 1 - Level 1 Coral
+ * 2 - Level 2 Coral
+ * 3 - Level 3 Coral
+ * 
+ */
+
+
+ public class Constants {
     public class OperatorConstants {
         public static final double LEFT_Y_DEADBAND = 0.1;
         public static final double RIGHT_Y_DEADBAND = 0.1;
@@ -8,16 +46,64 @@ public class Constants {
         public static final double RIGHT_X_DEADBAND = 0.1;
         public static final double GENERAL_DEADBAND = 0.1;
     }
-    
-    public class ElevatorConstants {
-        public static final int CONTROL_MOTOR_1_ID = 1;
-        public static final int CONTROL_MOTOR_2_ID = 2;
+
+    public static class ElevatorConstants {
+        //==============================================================================
+        //=============================== MOTOR IDS ====================================
+        public static final int LEFT_MOTOR_ID = 22;
+        public static final int RIGHT_MOTOR_ID = 23;
+        //==============================================================================
+        //======================== MOTION MAGIC VALUES =================================
+        public static final double VELOCITY = 1;
+        public static final double ACCELERATION = 0.75;
+        //==============================================================================
+        //=============================== GEAR VALUES ==================================
+        public static final double WHEEL_RADIUS = 0.827;
+        public static final double GEAR_RATIO = 12;
+        //==============================================================================
+        //=============================== HEIGHT VALUES ================================
+        public static final double HEIGHT_OFFSET = 0;
+        public static final double BASE = 0;
+        public static final double LEVEL_1 = 0.46;
+        public static final double LEVEL_2 = 0.81;
+        public static final double LEVEL_3 = 1.21;
+        public static final double LEVEL_4 = 1.83;
+
     }
 
-    public class IntakeConstants {
+    public static class EndEffectorConstants {
+        //==============================================================================
+        //=============================== MOTOR IDS ====================================
+        public static final int WRIST_ID = 24;
+        public static final int WHEELS_ID = 25;
+        //==============================================================================
+        //======================== MOTION MAGIC VALUES =================================
+        public static final double VELOCITY = 0.6;
+        public static final double ACCELERATION = 0.2;
+
+        //==============================================================================
+        //=============================== WRIST ANGLES =================================
+        public static final double INTAKE_ANGLE = 0;
+        public static final double REEF_ANGLE = 0;
+        public static final double PROCESSOR_ANGLE = 0;
+        public static final double BARGE_ANGLE = 0;
+
+        //==============================================================================
+        //=============================== WHEEL SPEEDS =================================
+        public static final double WHEEL_SPEED = 0;
+
     }
 
-    public class IndexerConstants {
-        public static final int BEAM_BREAK_PORT_ID = 0; //This is a digital input port.
+    public static class IndexerConstants {
+        //==============================================================================
+        //=============================== MOTOR IDS ====================================
+        public static final int INDEXER_ID = 0;
+        //==============================================================================
+        //=============================== BEAM BREAK ===================================
+        public static final int BEAM_BREAK_PORT_ID = 9;
+        //==============================================================================
+        //=============================== INDEXER VALUES ===============================
+        public static final double INDEXER_SPEED = 0;
+        public static final double INDEXER_POSITION = 0;
     }
 }
