@@ -32,7 +32,7 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     public ElevatorSubsystem() {
         m_left = new TalonFX(ElevatorConstants.LEFT_MOTOR_ID);
-        m_right = new TalonFX(ElevatorConstants.RIGHT_MOTOR_ID); //This will be the right motor.
+        m_right = new TalonFX(ElevatorConstants.RIGHT_MOTOR_ID); //This will be the follower.
         
         MMconfigs = new MotionMagicConfigs();
 

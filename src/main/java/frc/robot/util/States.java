@@ -3,14 +3,12 @@ package frc.robot.util;
 public class States {
     public static enum RobotState {
         IDLE,
-        PROCESSOR,
         REEF,
         STATION,
-        CAGE,
+        PROCESSOR,
+        BARGE,
         CLIMB,
-        HANGING,
-        INTAKE,
-        OUTTAKE
+        HANGING
     }
 
     public static enum ElevatorState {
@@ -57,5 +55,14 @@ public class States {
         DISABLED,
         /* State for when the indexer is enabled */
         ENABLED
+    }
+
+    public static enum ClimberState {
+        /* State for when the climber is in the process of climbing */
+        CLIMBING,
+        /* State for when the climber is at position zero */
+        ZERO,
+        /* State for when the climber has reached its maximum position */
+        CLIMBED
     }
 }

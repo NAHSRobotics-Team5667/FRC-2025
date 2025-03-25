@@ -8,6 +8,7 @@ import frc.robot.util.States.EndEffectorWristState;
 public class RunWheels extends Command {
     private final EndEffectorSubsystem endEffector;
     private final StateManager stateManager;
+    private boolean isRunning;
 
     public RunWheels() {
         endEffector = EndEffectorSubsystem.getInstance();
@@ -17,13 +18,21 @@ public class RunWheels extends Command {
     }
 
     @Override
-    public void initialize() {
-        
+    public void initialize() { 
+        if (endEffector.getWheelSpeed() > 0) {
+            isRunning = true;
+        } else {
+            isRunning = false;
+        }
     }
 
     @Override
     public void execute() {
-        
+        if (!isRunning) {
+            endEffector.moveWheels(1);
+        } else {
+            endEffector.moveWheels(0);
+        }
     }
 
     @Override

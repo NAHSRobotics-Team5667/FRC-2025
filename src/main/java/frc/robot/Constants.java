@@ -117,4 +117,15 @@ package frc.robot;
         public static final double ROLLER_SPEED = 0;
         public static final double PIVOT_SPEED = 0;
     }
+
+    public static class ClimberConstants {
+        //==============================================================================
+        //=============================== MOTOR IDS ====================================
+        public static final int CLIMB_MOTOR_ID = 0;
+        //==============================================================================
+        //=============================== MOTION VALUES ================================
+        public static final double VELOCITY = 0;
+        public static final double ACCELERATION = 0;
+        public static final double ROTATIONS = 0;
+    }
 }

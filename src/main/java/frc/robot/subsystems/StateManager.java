@@ -10,12 +10,14 @@ import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.EndEffectorSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.IndexerSubsystem;
+import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.util.States.ElevatorState;
 import frc.robot.util.States.RobotState;
 import frc.robot.util.States.EndEffectorWheelState;
 import frc.robot.util.States.EndEffectorWristState;
 import frc.robot.util.States.IntakeState;
 import frc.robot.util.States.IndexerState;
+import frc.robot.util.States.ClimberState;
 
 public class StateManager extends SubsystemBase {
     private static final DigitalInput m_beamBreak = new DigitalInput(IndexerConstants.BEAM_BREAK_PORT_ID);
@@ -41,6 +43,10 @@ public class StateManager extends SubsystemBase {
     //Indexer
     private IndexerState indexerState;
     private IndexerSubsystem indexer = IndexerSubsystem.getInstance(m_beamBreak);
+
+    //Climber
+    private ClimberState climberState;
+    private ClimberSubsystem climber = ClimberSubsystem.getInstance();
 
 
 
@@ -73,11 +79,11 @@ public class StateManager extends SubsystemBase {
     public void updateElevatorState() {
         if (elevator.isMoving()){
             elevatorState = ElevatorState.MOVING;
-        } else if (elevator.getElevatorPosition() == ElevatorConstants.LEVEL_1) {
+        } else if (elevator.getElevatorPosition() <= ElevatorConstants.LEVEL_1 + 0.1 && elevator.getElevatorPosition() >= ElevatorConstants.LEVEL_1 - 0.1) {
             elevatorState = ElevatorState.LEVEL_1;
-        } else if (elevator.getElevatorPosition() == ElevatorConstants.LEVEL_2) {
+        } else if (elevator.getElevatorPosition() <= ElevatorConstants.LEVEL_2 + 0.1 && elevator.getElevatorPosition() >= ElevatorConstants.LEVEL_2 - 0.1) {
             elevatorState = ElevatorState.LEVEL_2;
-        } else if (elevator.getElevatorPosition() == ElevatorConstants.LEVEL_3) {
+        } else if (elevator.getElevatorPosition() <= ElevatorConstants.LEVEL_3 + 0.1 && elevator.getElevatorPosition() >= ElevatorConstants.LEVEL_3 - 0.1) {
             elevatorState = ElevatorState.LEVEL_3;
         } else {
             elevatorState = ElevatorState.LEVEL_4;
@@ -85,11 +91,11 @@ public class StateManager extends SubsystemBase {
     }
 
     public void updateWristState() {
-        if (endEffector.getWristPosition() == EndEffectorConstants.BARGE_ANGLE) {
+        if (endEffector.getWristPosition() <= EndEffectorConstants.BARGE_ANGLE + 0.1 && endEffector.getWristPosition() >= EndEffectorConstants.BARGE_ANGLE - 0.1) {
             wristState = EndEffectorWristState.BARGE;
-        } else if (endEffector.getWristPosition() == EndEffectorConstants.REEF_ANGLE) {
+        } else if (endEffector.getWristPosition() <= EndEffectorConstants.REEF_ANGLE + 0.1 && endEffector.getWristPosition() >= EndEffectorConstants.REEF_ANGLE - 0.1) {
             wristState = EndEffectorWristState.REEF;
-        } if (endEffector.getWristPosition() == EndEffectorConstants.PROCESSOR_ANGLE) {
+        } if (endEffector.getWristPosition() <= EndEffectorConstants.PROCESSOR_ANGLE + 0.1 && endEffector.getWristPosition() >= EndEffectorConstants.PROCESSOR_ANGLE - 0.1) {
             wristState = EndEffectorWristState.PROCESSOR;
         } else {
             wristState = EndEffectorWristState.INTAKE;
@@ -120,6 +126,15 @@ public class StateManager extends SubsystemBase {
         }
     }
 
+    public void updateClimberState() {
+        if (climber.isMoving()) {
+            climberState = ClimberState.CLIMBING;
+        } else if (climber.getClimberPosition() <= Constants.ClimberConstants.ROTATIONS + 0.1 && climber.getClimberPosition() >= Constants.ClimberConstants.ROTATIONS - 0.1) {
+            climberState = ClimberState.CLIMBED;
+        }
+            climberState = ClimberState.ZERO;
+        }
+
     //=========================================================================
     //=============================== GETTERS =================================
 
@@ -141,5 +156,9 @@ public class StateManager extends SubsystemBase {
 
     public IndexerState getIndexerState() {
         return indexerState;
+    }
+
+    public ClimberState getClimberState() {
+        return climberState;
     }
 }
