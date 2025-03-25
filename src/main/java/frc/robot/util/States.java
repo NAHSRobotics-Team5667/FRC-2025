@@ -45,7 +45,7 @@ public class States {
     }
 
     public static enum IntakeState {
-
+        IDLE
     }
 
     public static enum IndexerState {

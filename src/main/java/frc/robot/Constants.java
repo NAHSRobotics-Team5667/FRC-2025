@@ -90,14 +90,14 @@ package frc.robot;
 
         //==============================================================================
         //=============================== WHEEL SPEEDS =================================
-        public static final double WHEEL_SPEED = 0;
+        public static final double WHEEL_SPEED = 1;
 
     }
 
     public static class IndexerConstants {
         //==============================================================================
         //=============================== MOTOR IDS ====================================
-        public static final int INDEXER_ID = 0;
+        public static final int INDEXER_ID = 21;
         //==============================================================================
         //=============================== BEAM BREAK ===================================
         public static final int BEAM_BREAK_PORT_ID = 9;
