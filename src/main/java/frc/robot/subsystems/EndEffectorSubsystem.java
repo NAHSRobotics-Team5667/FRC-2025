@@ -29,7 +29,7 @@ public class EndEffectorSubsystem implements Subsystem {
     private TalonFX m_wristMotor; //This motor will control the wrist on our end effector.
     private TalonFX m_wheelMotor; //This motor will control the wheels on ou end effector.
     private static DigitalInput m_beamBreak; //This is the beam break sensor that will be used to detect if a game piece is in the end effector.
-    private MotionMagicConfigs MMWrist; //This will be used to set the motion magic values for the wrist motor.
+    private MotionMagicConfigs MM_Wrist; //This will be used to set the motion magic values for the wrist motor.
 
     //Singleton
     private static EndEffectorSubsystem instance = null;
@@ -46,7 +46,7 @@ public class EndEffectorSubsystem implements Subsystem {
         m_wristMotor = new TalonFX(EndEffectorConstants.WRIST_ID);
         m_wheelMotor = new TalonFX(EndEffectorConstants.WHEELS_ID);
         beamBreak = m_beamBreak;
-        MMWrist = new MotionMagicConfigs().
+        MM_Wrist = new MotionMagicConfigs().
         withMotionMagicCruiseVelocity(EndEffectorConstants.VELOCITY).
         withMotionMagicAcceleration(EndEffectorConstants.ACCELERATION);
     }
