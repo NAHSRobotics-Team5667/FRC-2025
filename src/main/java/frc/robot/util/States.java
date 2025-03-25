@@ -45,4 +45,17 @@ public class States {
         /* State for when the wheels are outtaking */
         OUTTAKING
     }
+
+    public static enum IntakeState {
+
+    }
+
+    public static enum IndexerState {
+        /* State for when the beam break is broken */
+        HAS_CORAL,
+        /* State for when the indexer is disabled */
+        DISABLED,
+        /* State for when the indexer is enabled */
+        ENABLED
+    }
 }

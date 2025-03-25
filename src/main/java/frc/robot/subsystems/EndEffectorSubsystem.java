@@ -4,12 +4,14 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 
+import static edu.wpi.first.units.Units.Rotations;
+
 import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import frc.robot.Constants.EndEffectorConstants;
-import frc.robot.util.States.EndEffectorWristState;;
+import frc.robot.util.States.EndEffectorWristState;
 
 /**
  * EndEffectorSubsystem.java
@@ -25,11 +27,12 @@ import frc.robot.util.States.EndEffectorWristState;;
  * SENSORS ==========
  * 
  **/
+@SuppressWarnings("unused")
 public class EndEffectorSubsystem implements Subsystem {
     private TalonFX m_wristMotor; //This motor will control the wrist on our end effector.
     private TalonFX m_wheelMotor; //This motor will control the wheels on ou end effector.
     private static DigitalInput m_beamBreak; //This is the beam break sensor that will be used to detect if a game piece is in the end effector.
-    private MotionMagicConfigs MM_Wrist; //This will be used to set the motion magic values for the wrist motor.
+	private MotionMagicConfigs MM_Wrist; //This will be used to set the motion magic values for the wrist motor.
 
     //Singleton
     private static EndEffectorSubsystem instance = null;
@@ -46,6 +49,7 @@ public class EndEffectorSubsystem implements Subsystem {
         m_wristMotor = new TalonFX(EndEffectorConstants.WRIST_ID);
         m_wheelMotor = new TalonFX(EndEffectorConstants.WHEELS_ID);
         beamBreak = m_beamBreak;
+
         MM_Wrist = new MotionMagicConfigs().
         withMotionMagicCruiseVelocity(EndEffectorConstants.VELOCITY).
         withMotionMagicAcceleration(EndEffectorConstants.ACCELERATION);
@@ -68,7 +72,7 @@ public class EndEffectorSubsystem implements Subsystem {
      * @return The current position of the wrist motor.
      */
     public double getWristPosition() {
-        return m_wristMotor.getPosition().getValueAsDouble();
+        return m_wristMotor.getPosition().getValue().in(Rotations);
     }
 
     /**

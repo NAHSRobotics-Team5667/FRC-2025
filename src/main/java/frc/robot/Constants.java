@@ -82,7 +82,7 @@ package frc.robot;
         public static final double ACCELERATION = 0.2;
 
         //==============================================================================
-        //=============================== WRIST ANGLES =================================
+        //======================= WRIST ANGLES (IN ROTATIONS) ==========================
         public static final double INTAKE_ANGLE = 0;
         public static final double REEF_ANGLE = 0;
         public static final double PROCESSOR_ANGLE = 0;
@@ -105,5 +105,16 @@ package frc.robot;
         //=============================== INDEXER VALUES ===============================
         public static final double INDEXER_SPEED = 0;
         public static final double INDEXER_POSITION = 0;
+    }
+
+    public static class IntakeConstants {
+        //==============================================================================
+        //=============================== MOTOR IDS ====================================
+        public static final int ROLLER_MOTOR_ID = 20;
+        public static final int PIVOT_MOTOR_ID = 26;
+        //==============================================================================
+        //=============================== INTAKE VALUES ================================
+        public static final double ROLLER_SPEED = 0;
+        public static final double PIVOT_SPEED = 0;
     }
 }

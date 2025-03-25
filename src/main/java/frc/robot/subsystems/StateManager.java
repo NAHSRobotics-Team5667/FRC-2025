@@ -1,15 +1,24 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.ElevatorConstants;
+import frc.robot.Constants.EndEffectorConstants;
+import frc.robot.Constants.IndexerConstants;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.EndEffectorSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.IndexerSubsystem;
 import frc.robot.util.States.ElevatorState;
 import frc.robot.util.States.RobotState;
 import frc.robot.util.States.EndEffectorWheelState;
 import frc.robot.util.States.EndEffectorWristState;
+import frc.robot.util.States.IntakeState;
+import frc.robot.util.States.IndexerState;
 
 public class StateManager extends SubsystemBase {
+    private static final DigitalInput m_beamBreak = new DigitalInput(IndexerConstants.BEAM_BREAK_PORT_ID);
     //=========================================================================
     //======================== STATE MANAGERS =================================
 
@@ -24,6 +33,14 @@ public class StateManager extends SubsystemBase {
     private EndEffectorWristState wristState;
     private EndEffectorWheelState wheelState;
     private EndEffectorSubsystem endEffector = EndEffectorSubsystem.getInstance();
+
+    //Intake
+    private IntakeState intakeState;
+    private IntakeSubsystem intake = IntakeSubsystem.getInstance(m_beamBreak);
+
+    //Indexer
+    private IndexerState indexerState;
+    private IndexerSubsystem indexer = IndexerSubsystem.getInstance(m_beamBreak);
 
 
 
@@ -51,14 +68,32 @@ public class StateManager extends SubsystemBase {
     }
     
     //=========================================================================
-    //============================= STATE UPDATERS ============================
+    //=========================== STATE UPDATERS ==============================
 
     public void updateElevatorState() {
-        
+        if (elevator.isMoving()){
+            elevatorState = ElevatorState.MOVING;
+        } else if (elevator.getElevatorPosition() == ElevatorConstants.LEVEL_1) {
+            elevatorState = ElevatorState.LEVEL_1;
+        } else if (elevator.getElevatorPosition() == ElevatorConstants.LEVEL_2) {
+            elevatorState = ElevatorState.LEVEL_2;
+        } else if (elevator.getElevatorPosition() == ElevatorConstants.LEVEL_3) {
+            elevatorState = ElevatorState.LEVEL_3;
+        } else {
+            elevatorState = ElevatorState.LEVEL_4;
+        }
     }
 
     public void updateWristState() {
-
+        if (endEffector.getWristPosition() == EndEffectorConstants.BARGE_ANGLE) {
+            wristState = EndEffectorWristState.BARGE;
+        } else if (endEffector.getWristPosition() == EndEffectorConstants.REEF_ANGLE) {
+            wristState = EndEffectorWristState.REEF;
+        } if (endEffector.getWristPosition() == EndEffectorConstants.PROCESSOR_ANGLE) {
+            wristState = EndEffectorWristState.PROCESSOR;
+        } else {
+            wristState = EndEffectorWristState.INTAKE;
+        }
     }
 
     public void updateWheelState() {
@@ -69,5 +104,42 @@ public class StateManager extends SubsystemBase {
         } else {
             wheelState = EndEffectorWheelState.IDLE;
         }
+    }
+
+    public void updateIntakeState() {
+
+    }
+
+    public void updateIndexerState() {
+        if (indexer.isBeamBroken()) {
+            indexerState = IndexerState.HAS_CORAL;
+        } else if (indexer.getSpeed() > 0) {
+            indexerState = IndexerState.ENABLED;
+        } else {
+            indexerState = IndexerState.DISABLED;
+        }
+    }
+
+    //=========================================================================
+    //=============================== GETTERS =================================
+
+    public ElevatorState getElevatorState() {
+        return elevatorState;
+    }
+
+    public EndEffectorWristState getWristState() {
+        return wristState;
+    }
+
+    public EndEffectorWheelState getWheelState() {
+        return wheelState;
+    }
+
+    public IntakeState getIntakeState() {
+        return intakeState;
+    }
+
+    public IndexerState getIndexerState() {
+        return indexerState;
     }
 }

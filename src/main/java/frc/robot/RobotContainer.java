@@ -26,9 +26,12 @@ import edu.wpi.first.wpilibj.DigitalInput;
 // Constants and subsystems import.
 import frc.robot.generated.TunerConstants; //Constants for Swerve.
 import frc.robot.subsystems.CommandSwerveDrivetrain; //Swerve drivetrain subsystem.
+
 import frc.robot.subsystems.ElevatorSubsystem; //Elevator subsystem.
 import frc.robot.subsystems.IndexerSubsystem; //Indexer subsystem.
 import frc.robot.subsystems.IntakeSubsystem; //Intake subsystem.
+import frc.robot.subsystems.EndEffectorSubsystem; //End effector subsystem.
+
 import frc.robot.Constants.OperatorConstants; //Operator constants.
 import frc.robot.Constants.IndexerConstants; //Indexer constants.
 
@@ -65,9 +68,10 @@ public class RobotContainer {
      * 
      * Note: Subsystems that require beam break sensor should be instantiated after the sensor is created.
      */
-    private final IndexerSubsystem m_indexerSubsystem = new IndexerSubsystem(m_beamBreak);
-    private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem(m_beamBreak);
-    private final ElevatorSubsystem m_elevatorSubsystem = new ElevatorSubsystem();
+    private final IndexerSubsystem m_indexerSubsystem = IndexerSubsystem.getInstance(m_beamBreak);
+    private final IntakeSubsystem m_intakeSubsystem = IntakeSubsystem.getInstance(m_beamBreak);
+    private final ElevatorSubsystem m_elevatorSubsystem = ElevatorSubsystem.getInstance();
+    private final EndEffectorSubsystem m_endEffectorSubsystem = EndEffectorSubsystem.getInstance();
 
     /* Path follower */
     private final SendableChooser<Command> autoChooser;
