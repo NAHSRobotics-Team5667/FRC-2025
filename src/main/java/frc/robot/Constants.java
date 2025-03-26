@@ -54,8 +54,9 @@ package frc.robot;
         public static final int RIGHT_MOTOR_ID = 23;
         //==============================================================================
         //======================== MOTION MAGIC VALUES =================================
-        public static final double VELOCITY = 1;
-        public static final double ACCELERATION = 0.75;
+        public static final double MAX_VELOCITY = 0.35;
+        public static final double MAX_ACCELERATION = 0.15;
+        public static final double MAX_JERK = 0.05;
         //==============================================================================
         //=============================== GEAR VALUES ==================================
         public static final double WHEEL_RADIUS = 0.827;
@@ -77,10 +78,10 @@ package frc.robot;
         public static final int WRIST_ID = 24;
         public static final int WHEELS_ID = 25;
         //==============================================================================
-        //======================== MOTION MAGIC VALUES =================================
-        public static final double VELOCITY = 0.6;
-        public static final double ACCELERATION = 0.2;
-
+        //========================== MOTION MAGIC VALUES ===============================
+        public static final double MAX_VELOCITY = 0.2;
+        public static final double MAX_ACCELERATION = 0.06;
+        public static final double MAX_JERK = 0.01;
         //==============================================================================
         //======================= WRIST ANGLES (IN ROTATIONS) ==========================
         public static final double INTAKE_ANGLE = 0; //0 Degrees

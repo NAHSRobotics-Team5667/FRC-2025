@@ -1,123 +1,99 @@
+// Copyright (c) FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
+
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Subsystem;
-
-import static edu.wpi.first.units.Units.Rotations;
-
-import com.ctre.phoenix6.configs.MotionMagicConfigs;
-import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
-
+import com.ctre.phoenix6.controls.MotionMagicVoltage;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import static edu.wpi.first.units.Units.Rotations;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.EndEffectorConstants;
-import frc.robot.util.States.EndEffectorWristState;
 
-/**
- * EndEffectorSubsystem.java
- * 
- * Refers to the robot's game piece manipulator.
- * 
- * MOTORS ===========
- * 
- * Kraken X60 - Wrist - Turns actual angle of end effector.
- * 
- * Kraken X44 - Wheels - Turns on the green wheels that takes in game pieces.
- * 
- * SENSORS ==========
- * 
- **/
-@SuppressWarnings("unused")
-public class EndEffectorSubsystem implements Subsystem {
-    private TalonFX m_wristMotor; //This motor will control the wrist on our end effector.
-    private TalonFX m_wheelMotor; //This motor will control the wheels on ou end effector.
-    private final DigitalInput m_beamBreak; //This is the beam break sensor that will be used to detect if a game piece is in the end effector.
-	private MotionMagicConfigs MM_Wrist; //This will be used to set the motion magic values for the wrist motor.
+public class EndEffectorSubsystem extends SubsystemBase {
+    private TalonFX m_wheels;
+    private TalonFX m_wrist;
+    private TalonFXConfiguration wristConfig;
 
-    //Singleton
-    private static EndEffectorSubsystem instance = null;
 
-    public static EndEffectorSubsystem getInstance(DigitalInput beamBreak) {
-        if (instance == null)
-            instance = new EndEffectorSubsystem(beamBreak);
+    // ========================================================
+    // ============= CLASS & SINGLETON SETUP ==================
 
+    // SINGLETON ----------------------------------------------
+
+    private static EndEffectorSubsystem instance;
+
+    public EndEffectorSubsystem() {
+        m_wheels = new TalonFX(EndEffectorConstants.WHEELS_ID);
+        m_wrist = new TalonFX(EndEffectorConstants.WRIST_ID);
+        wristConfig = new TalonFXConfiguration();
+
+        wristConfig.Feedback.SensorToMechanismRatio = 1.0; // 1:1 Gear Ratio
+        wristConfig.MotionMagic.withMotionMagicCruiseVelocity(EndEffectorConstants.MAX_VELOCITY)
+        .withMotionMagicAcceleration(EndEffectorConstants.MAX_ACCELERATION);
+        m_wrist.getConfigurator().apply(wristConfig);
+
+    }
+
+    public static EndEffectorSubsystem getInstance() {
+        if (instance == null) {
+            instance = new EndEffectorSubsystem();
+        }
         return instance;
     }
 
-    //Constructor
-    public EndEffectorSubsystem(DigitalInput beamBreak) {
-        m_wristMotor = new TalonFX(EndEffectorConstants.WRIST_ID);
-        m_wheelMotor = new TalonFX(EndEffectorConstants.WHEELS_ID);
-        m_beamBreak = beamBreak;
+    //===============================================================
+    //===================== MOTOR ACTIONS ===========================
 
-        MM_Wrist = new MotionMagicConfigs().
-        withMotionMagicCruiseVelocity(EndEffectorConstants.VELOCITY).
-        withMotionMagicAcceleration(EndEffectorConstants.ACCELERATION);
+    public void moveWheels() {
+        m_wheels.set(EndEffectorConstants.WHEEL_SPEED);
     }
 
-    //=========================================================================
-    //============================= WRIST =====================================
-
-    /**
-     * This method will move the end effector to a desired angle.
-     * @param targetAngle - The angle to move the end effector to.
-     */
-    public void moveWristToSetPoint(double targetAngle) {
-        MotionMagicVoltage wristRequest = new MotionMagicVoltage(0);
-        m_wristMotor.setControl(wristRequest.withPosition(targetAngle));
-    }
-
-    /**
-     * This method will return the current position of the wrist motor.
-     * @return The current position of the wrist motor.
-     */
-    public double getWristPosition() {
-        return m_wristMotor.getPosition().getValue().in(Rotations);
-    }
-
-    /**
-     * This method will stop the wrist motor
-     */
-    public void stopWrist() {
-        m_wristMotor.set(0);
-    }
-
-    //=========================================================================
-    //============================= WHEELS ====================================
-
-    /**
-     * This method will move the wheels on the end effector.
-     * @param speed - The speed to move the wheels at.
-     */
-    public void moveWheels(double speed) {
-        m_wheelMotor.set(speed);
-    }
-
-    /**
-     * This method will return the speed of the wheels on the end effector.
-     * @return The speed of the wheels on the end effector.
-     */
-    public double getWheelSpeed() {
-        return m_wheelMotor.get();
-    }
-
-    /**
-     * This method will stop the wheels on the end effector.
-     */
     public void stopWheels() {
-        m_wheelMotor.set(0);
+        m_wheels.set(0);
     }
 
-    //=========================================================================
-    //============================= BEAM BREAK ================================
-    public boolean isBeamBroken() {
-        return !m_beamBreak.get(); // Typically beam breaks return false when broken
-    }    
+    public void moveWrist(double position) {
+        m_wrist.setControl(new MotionMagicVoltage(position));
+    }
+
+    public void stopWrist() {
+        m_wrist.set(0);
+    }
+
+    //================================================================
+    //========================== GETTERS =============================
+
+    public double getWristPosition() {
+        return m_wrist.getPosition().getValue().in(Rotations);
+    }
+
+    public boolean isWristMoving() {
+        if (m_wrist.get() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean isWheelEnabled() {
+        if (m_wheels.get() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("Wrist Position (in Rotations)", getWristPosition());
-        SmartDashboard.putNumber("Wheel Speed", getWheelSpeed());
+        // This method will be called once per scheduler run
     }
-    
+
+    @Override
+    public void simulationPeriodic() {
+        // This method will be called once per scheduler run during simulation
+    }
+
+  
 }

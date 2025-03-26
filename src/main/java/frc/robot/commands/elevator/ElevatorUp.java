@@ -11,7 +11,6 @@ public class ElevatorUp extends Command {
     private ElevatorSubsystem elevator;
     private StateManager stateManager;
     private ElevatorState initState;
-    private double initPosition;
     private double distance; //In terms of meters and gets converted to rotations
 
     public ElevatorUp() {
@@ -23,32 +22,30 @@ public class ElevatorUp extends Command {
     @Override
     public void initialize() {
         initState = stateManager.getElevatorState();
-        initPosition = elevator.getElevatorPosition();
         if (initState.equals(ElevatorState.MOVING) || initState.equals(ElevatorState.LEVEL_4)) {
             distance = 0;
         } else if (initState.equals(ElevatorState.LEVEL_1)) {
-            distance = ElevatorConstants.LEVEL_2 - initPosition;
+            distance = ElevatorConstants.LEVEL_2;
         } else if (initState.equals(ElevatorState.LEVEL_2)) {
-            distance = ElevatorConstants.LEVEL_3 - initPosition;
+            distance = ElevatorConstants.LEVEL_3;
         } else {
-            distance = ElevatorConstants.LEVEL_4 - initPosition;
+            distance = ElevatorConstants.LEVEL_4;
         }
     }
 
     @Override
     public void execute() {
-        final double targetRotations = elevator.metersToRotations(distance);
         elevator.moveElevator(1); //TEST VALUE
     }
 
     @Override
     public boolean isFinished() {
-        return elevator.getElevatorPosition() >= (distance + initPosition);
+        return elevator.getElevatorPosition() >= (distance);
     }
 
     @Override
     public void end(boolean interrupted) {
-        elevator.stop();
+        
     }
 
     

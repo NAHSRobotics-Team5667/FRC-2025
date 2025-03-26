@@ -3,8 +3,6 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.PositionVoltage;
-
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants.IntakeConstants;
@@ -28,7 +26,6 @@ import frc.robot.Constants.IntakeConstants;
 public class IntakeSubsystem extends SubsystemBase {
     //=========================================================================
     //============================= VARIABLES =================================
-    private final DigitalInput m_beamBreak;
     private final TalonFX m_pivotMotor;     // This is to drop the actual intake.
     private final TalonFX m_rollerMotor;    // This is to spin the intake wheels.
     private static IntakeSubsystem instance = null;
@@ -47,8 +44,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
     //=========================================================================
     //============================= CONSTRUCTOR ===============================
-    private IntakeSubsystem(DigitalInput beamBreak) {
-        m_beamBreak = beamBreak;
+    private IntakeSubsystem() {
         m_pivotMotor = new TalonFX(IntakeConstants.PIVOT_MOTOR_ID);
         m_rollerMotor = new TalonFX(IntakeConstants.ROLLER_MOTOR_ID);
 
@@ -57,6 +53,7 @@ public class IntakeSubsystem extends SubsystemBase {
         configs.Slot0.kP = kP;
         configs.Slot0.kI = kI;
         configs.Slot0.kD = kD;
+        configs.Feedback.SensorToMechanismRatio = kPivotGearRatio;
         m_pivotMotor.getConfigurator().apply(configs);
 
         // Initialize the position control request
@@ -71,23 +68,15 @@ public class IntakeSubsystem extends SubsystemBase {
      * @param beamBreak Digital input for the beam break sensor.
      * @return Instance of IntakeSubsystem.
      */
-    public static IntakeSubsystem getInstance(DigitalInput beamBreak) {
+    public static IntakeSubsystem getInstance() {
         if (instance == null) {
-            instance = new IntakeSubsystem(beamBreak);
+            instance = new IntakeSubsystem();
         }
         return instance;
     }
 
     //=========================================================================
     //============================= METHODS ===================================
-
-    /**
-     * This method will check the status of the beam break.
-     * @return Beam Break Status.
-     */
-    public boolean isBeamBroken() {
-        return !m_beamBreak.get();
-    }
 
     /**
      * This method will set the speed of the intake roller motor.

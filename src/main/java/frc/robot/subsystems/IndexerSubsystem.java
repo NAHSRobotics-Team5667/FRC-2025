@@ -1,7 +1,6 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.Subsystem;
-import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.Constants.IndexerConstants;
 import com.ctre.phoenix6.hardware.TalonFX;
 
@@ -22,12 +21,10 @@ import com.ctre.phoenix6.hardware.TalonFX;
 
 public class IndexerSubsystem implements Subsystem {
     private final TalonFX m_indexer;
-    private final DigitalInput m_beamBreak;
     private static IndexerSubsystem instance = null;
     
     //Constructor
-    public IndexerSubsystem(DigitalInput beamBreak) {
-        m_beamBreak = beamBreak;
+    public IndexerSubsystem() {
         m_indexer = new TalonFX(IndexerConstants.INDEXER_ID);
     }
 
@@ -36,17 +33,13 @@ public class IndexerSubsystem implements Subsystem {
      * @param beamBreak
      * @return Instance
      */
-    public static IndexerSubsystem getInstance(DigitalInput beamBreak) {        
+    public static IndexerSubsystem getInstance() {        
         if (instance == null) {
-            instance = new IndexerSubsystem(beamBreak);
+            instance = new IndexerSubsystem();
         }
         return instance;
     }
 
-    
-    public boolean isBeamBroken() {
-        return !m_beamBreak.get(); // Typically beam breaks return false when broken
-    }
 
     /**
      * This method sets the speed of the indexer motor

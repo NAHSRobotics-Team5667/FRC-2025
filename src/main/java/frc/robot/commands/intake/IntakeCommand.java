@@ -15,7 +15,7 @@ public class IntakeCommand extends Command {
 
     public IntakeCommand() {
         beamBreak = new DigitalInput(IndexerConstants.BEAM_BREAK_PORT_ID);
-        intake = IntakeSubsystem.getInstance(beamBreak);
+        intake = IntakeSubsystem.getInstance();
         stateManager = StateManager.getInstance();
 
         addRequirements(intake);

@@ -1,35 +1,24 @@
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
 import frc.robot.Constants.ElevatorConstants;
 import frc.robot.Constants.EndEffectorConstants;
-import frc.robot.Constants.IndexerConstants;
-import frc.robot.subsystems.ElevatorSubsystem;
-import frc.robot.subsystems.EndEffectorSubsystem;
-import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.IndexerSubsystem;
 import frc.robot.util.States.ElevatorState;
-import frc.robot.util.States.RobotState;
-import frc.robot.util.States.EndEffectorWheelState;
-import frc.robot.util.States.EndEffectorWristState;
+import frc.robot.util.States.WristState;
+import frc.robot.util.States.WheelState;
 import frc.robot.util.States.IntakeState;
 import frc.robot.util.States.IndexerState;
+import frc.robot.util.States.BeamBreakState;
 
 public class StateManager extends SubsystemBase {
     //=========================================================================
     //======================== STATE MANAGERS =================================
-
-    //Robot
-    private RobotState robotState;
-
     //Elevator
     private ElevatorState elevatorState;
 
     //End Effector
-    private EndEffectorWristState wristState;
-    private EndEffectorWheelState wheelState;
+    private WristState wristState;
+    private WheelState wheelState;
 
     //Intake
     private IntakeState intakeState;
@@ -37,7 +26,8 @@ public class StateManager extends SubsystemBase {
     //Indexer
     private IndexerState indexerState;
 
-
+    //Beam Break
+    private BeamBreakState beamBreakState;
 
     //=========================================================================
     //===================== SINGLETON AND CONSTRUCTOR =========================
@@ -51,21 +41,22 @@ public class StateManager extends SubsystemBase {
     }
 
     private StateManager() {
-        //Robot ------------------------------
-        robotState = RobotState.IDLE;
         
         //Elevator ------------------------------
         elevatorState = ElevatorState.LEVEL_1;
 
         //End Effector ------------------------------
-        wristState = EndEffectorWristState.INTAKE;
-        wheelState = EndEffectorWheelState.IDLE;
+        wristState = WristState.AT_INTAKE;
+        wheelState = WheelState.IDLE;
 
         //Intake ------------------------------
         intakeState = IntakeState.IDLE;
 
         //Indexer ------------------------------
         indexerState = IndexerState.DISABLED;
+
+        //Beam Break ------------------------------
+        beamBreakState = BeamBreakState.NOT_BROKEN;
     }
     
     //=========================================================================
@@ -86,24 +77,24 @@ public class StateManager extends SubsystemBase {
     }
 
     public void updateWristState() {
-        if (EndEffectorSubsystem.getInstance(null).getWristPosition() <= EndEffectorConstants.BARGE_ANGLE + 0.1 && EndEffectorSubsystem.getInstance(null).getWristPosition() >= EndEffectorConstants.BARGE_ANGLE - 0.1) {
-            wristState = EndEffectorWristState.BARGE;
-        } else if (EndEffectorSubsystem.getInstance(null).getWristPosition() <= EndEffectorConstants.REEF_ANGLE + 0.1 && EndEffectorSubsystem.getInstance(null).getWristPosition() >= EndEffectorConstants.REEF_ANGLE - 0.1) {
-            wristState = EndEffectorWristState.REEF;
-        } if (EndEffectorSubsystem.getInstance(null).getWristPosition() <= EndEffectorConstants.PROCESSOR_ANGLE + 0.1 && EndEffectorSubsystem.getInstance(null).getWristPosition() >= EndEffectorConstants.PROCESSOR_ANGLE - 0.1) {
-            wristState = EndEffectorWristState.PROCESSOR;
+        if (EndEffectorSubsystem.getInstance().getWristPosition() <= EndEffectorConstants.BARGE_ANGLE + 0.1 && EndEffectorSubsystem.getInstance().getWristPosition() >= EndEffectorConstants.BARGE_ANGLE - 0.1) {
+            wristState = WristState.AT_BARGE;
+        } else if (EndEffectorSubsystem.getInstance().getWristPosition() <= EndEffectorConstants.REEF_ANGLE + 0.1 && EndEffectorSubsystem.getInstance().getWristPosition() >= EndEffectorConstants.REEF_ANGLE - 0.1) {
+            wristState = WristState.AT_REEF;
+        } if (EndEffectorSubsystem.getInstance().getWristPosition() <= EndEffectorConstants.PROCESSOR_ANGLE + 0.1 && EndEffectorSubsystem.getInstance().getWristPosition() >= EndEffectorConstants.PROCESSOR_ANGLE - 0.1) {
+            wristState = WristState.AT_PROCESSOR;
         } else {
-            wristState = EndEffectorWristState.INTAKE;
+            wristState = WristState.AT_INTAKE;
         }
     }
 
     public void updateWheelState() {
-        if (EndEffectorSubsystem.getInstance(null).getWheelSpeed() > 0) {
-            wheelState = EndEffectorWheelState.INTAKING;
-        } else if (EndEffectorSubsystem.getInstance(null).getWheelSpeed() < 0) {
-            wheelState = EndEffectorWheelState.OUTTAKING;
+        if (EndEffectorSubsystem.getInstance().isWheelEnabled()) {
+            wheelState = WheelState.INTAKE;
+        } else if (!EndEffectorSubsystem.getInstance().isWheelEnabled()) {
+            wheelState = WheelState.OUTTAKE;
         } else {
-            wheelState = EndEffectorWheelState.IDLE;
+            wheelState = WheelState.IDLE;
         }
     }
 
@@ -112,12 +103,18 @@ public class StateManager extends SubsystemBase {
     }
 
     public void updateIndexerState() {
-        if (IndexerSubsystem.getInstance(null).isBeamBroken()) {
-            indexerState = IndexerState.HAS_CORAL;
-        } else if (IndexerSubsystem.getInstance(null).getSpeed() > 0) {
+        if (IndexerSubsystem.getInstance().getSpeed() > 0) {
             indexerState = IndexerState.ENABLED;
         } else {
             indexerState = IndexerState.DISABLED;
+        }
+    }
+
+    public void updateBeamBreakState() {
+        if (BeamBreakSubsystem.getInstance().isBeamBroken()) {
+            beamBreakState = BeamBreakState.BROKEN;
+        } else {
+            beamBreakState = BeamBreakState.NOT_BROKEN;
         }
     }
 
@@ -128,11 +125,11 @@ public class StateManager extends SubsystemBase {
         return elevatorState;
     }
 
-    public EndEffectorWristState getWristState() {
+    public WristState getWristState() {
         return wristState;
     }
 
-    public EndEffectorWheelState getWheelState() {
+    public WheelState getWheelState() {
         return wheelState;
     }
 
@@ -142,6 +139,10 @@ public class StateManager extends SubsystemBase {
 
     public IndexerState getIndexerState() {
         return indexerState;
+    }
+
+    public BeamBreakState getBeamBreakState() {
+        return beamBreakState;
     }
 
 }

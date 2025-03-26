@@ -1,104 +1,90 @@
+// Copyright (c) FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
+
 package frc.robot.subsystems;
 
-/**
- * ElevatorSubsystem.java
- * 
- * Refers to the elevator that adjusts the height of the end effector
- *   
- * MOTORS ===========
- * Kraken X60 (2x)
- * 
- */
-//CTRE Imports
-import com.ctre.phoenix6.configs.MotionMagicConfigs;
-import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.NeutralModeValue;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.Follower;
-
-//WPILib Imports
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import static edu.wpi.first.units.Units.Rotations;
-
-//Local Imports
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ElevatorConstants;
 
-
 public class ElevatorSubsystem extends SubsystemBase {
     private TalonFX m_left;
-    private TalonFX m_right;
-    private Follower m_follower;
-    private MotionMagicConfigs MMconfigs;
+    private TalonFX m_right; //Right Motor acts as a Follower of Left Motor
+    private TalonFXConfiguration config;
+
+
+    // ========================================================
+    // ============= CLASS & SINGLETON SETUP ==================
+
+    // SINGLETON ----------------------------------------------
+
+    private static ElevatorSubsystem instance;
 
     public ElevatorSubsystem() {
         m_left = new TalonFX(ElevatorConstants.LEFT_MOTOR_ID);
-        m_right = new TalonFX(ElevatorConstants.RIGHT_MOTOR_ID); //This will be the follower.
-        
-        MMconfigs = new MotionMagicConfigs();
+        m_right = new TalonFX(ElevatorConstants.RIGHT_MOTOR_ID);
+        m_right.setControl(new Follower(ElevatorConstants.LEFT_MOTOR_ID, false));
 
-        MMconfigs.MotionMagicCruiseVelocity = ElevatorConstants.VELOCITY;
-        MMconfigs.MotionMagicAcceleration = ElevatorConstants.ACCELERATION;
-
-        m_left.getConfigurator().apply(MMconfigs);
-
-        //This will make the right motor follow the outputs of the left motor.
-        m_follower = new Follower(ElevatorConstants.LEFT_MOTOR_ID, false);
-        m_right.setControl(m_follower);
+        config = new TalonFXConfiguration();  
+        config.MotionMagic.withMotionMagicCruiseVelocity(ElevatorConstants.MAX_VELOCITY)
+        .withMotionMagicAcceleration(ElevatorConstants.MAX_ACCELERATION)
+        .withMotionMagicJerk(ElevatorConstants.MAX_JERK); 
+        config.Feedback.SensorToMechanismRatio = 12.0; // 12:1 Gear Ratio
+        m_left.getConfigurator().apply(config);
     }
 
-    private static ElevatorSubsystem instance = null;
-
     public static ElevatorSubsystem getInstance() {
-        if (instance == null)
+        if (instance == null) {
             instance = new ElevatorSubsystem();
-
+        }
         return instance;
     }
 
-    /**
-     * This method will move the elevator to a desired position.
-     * @param targetPosition
-     */
-    public void moveElevator(double targetPosition) {
-        final MotionMagicVoltage request = new MotionMagicVoltage(0);
-        m_left.setControl(request.withPosition(targetPosition));
+    //===============================================================
+    //===================== MOTOR ACTIONS ===========================
+
+    public void moveElevator(double newPosition) {
+        double rotationsFromMeters = -(newPosition/(2*Math.PI*ElevatorConstants.WHEEL_RADIUS)*ElevatorConstants.GEAR_RATIO);
+        m_left.setNeutralMode(NeutralModeValue.Brake);
+        m_left.setControl(new MotionMagicVoltage(rotationsFromMeters));
     }
 
-    /**
-     * This method will get the elevator's position.
-     * @param targetPosition
-     */
+    public void stopElevator() {
+        m_left.setControl(new MotionMagicVoltage(0));
+    }
+
+    //================================================================
+    //========================== GETTERS =============================
+
     public double getElevatorPosition() {
         double rotations = m_left.getPosition().getValue().in(Rotations);
         return (rotations * ElevatorConstants.WHEEL_RADIUS * 2 * Math.PI)/ElevatorConstants.GEAR_RATIO;
     }
 
-    public double metersToRotations(double meters) {
-        return (meters/(2*Math.PI*ElevatorConstants.WHEEL_RADIUS)*ElevatorConstants.GEAR_RATIO);
-    }
-
-    /*
-     * This method will check if the elevator is currently in motion.
-     */
     public boolean isMoving() {
-        if (m_left.get() > 0 && m_right.get() > 0) {
+        if (m_left.get() > 0 || m_left.get() < 0) {
             return true;
         } else {
             return false;
         }
     }
 
-    /**
-     * This method will stop the elevator motors.
-     */
-    public void stop() {
-        m_left.set(0);
-        m_right.set(0);
-    }
 
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("Elevator Position", getElevatorPosition());
-        SmartDashboard.putBoolean("Elevator Moving", isMoving());
+        // This method will be called once per scheduler run
     }
+
+    @Override
+    public void simulationPeriodic() {
+        // This method will be called once per scheduler run during simulation
+    }
+
+  
 }
