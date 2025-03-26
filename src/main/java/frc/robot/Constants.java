@@ -83,10 +83,10 @@ package frc.robot;
 
         //==============================================================================
         //======================= WRIST ANGLES (IN ROTATIONS) ==========================
-        public static final double INTAKE_ANGLE = 0;
-        public static final double REEF_ANGLE = 0;
-        public static final double PROCESSOR_ANGLE = 0;
-        public static final double BARGE_ANGLE = 0;
+        public static final double INTAKE_ANGLE = 0; //0 Degrees
+        public static final double REEF_ANGLE = 0.34722222222; //125 Degrees
+        public static final double PROCESSOR_ANGLE = 0.5; //180 Degrees
+        public static final double BARGE_ANGLE = 0.20833333333; //75 Degrees
 
         //==============================================================================
         //=============================== WHEEL SPEEDS =================================
