@@ -36,6 +36,13 @@ import frc.robot.subsystems.StateManager; //State manager.
 import frc.robot.Constants.OperatorConstants; //Operator constants.
 import frc.robot.Constants.IndexerConstants; //Indexer constants.
 
+//Commands Import
+import frc.robot.commands.elevator.ElevatorUp;
+import frc.robot.commands.elevator.ElevatorDown;
+import frc.robot.commands.endeffector.MoveWrist;
+import frc.robot.commands.endeffector.RunWheels;
+import frc.robot.commands.intake.IntakeCommand;
+
 public class RobotContainer {
 
     //===========================================================================
@@ -143,6 +150,9 @@ public class RobotContainer {
         joystick.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 
         drivetrain.registerTelemetry(logger::telemeterize);
+
+        joystick.a().onTrue(new ElevatorUp());
+        joystick.b().onTrue(new ElevatorUp());
     }
 
     public Command getAutonomousCommand() {
