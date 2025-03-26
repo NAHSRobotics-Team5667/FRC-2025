@@ -18,7 +18,6 @@ import frc.robot.util.States.IntakeState;
 import frc.robot.util.States.IndexerState;
 
 public class StateManager extends SubsystemBase {
-    private static final DigitalInput m_beamBreak = new DigitalInput(IndexerConstants.BEAM_BREAK_PORT_ID);
     //=========================================================================
     //======================== STATE MANAGERS =================================
 
@@ -87,11 +86,11 @@ public class StateManager extends SubsystemBase {
     }
 
     public void updateWristState() {
-        if (EndEffectorSubsystem.getInstance().getWristPosition() <= EndEffectorConstants.BARGE_ANGLE + 0.1 && EndEffectorSubsystem.getInstance().getWristPosition() >= EndEffectorConstants.BARGE_ANGLE - 0.1) {
+        if (EndEffectorSubsystem.getInstance(null).getWristPosition() <= EndEffectorConstants.BARGE_ANGLE + 0.1 && EndEffectorSubsystem.getInstance(null).getWristPosition() >= EndEffectorConstants.BARGE_ANGLE - 0.1) {
             wristState = EndEffectorWristState.BARGE;
-        } else if (EndEffectorSubsystem.getInstance().getWristPosition() <= EndEffectorConstants.REEF_ANGLE + 0.1 && EndEffectorSubsystem.getInstance().getWristPosition() >= EndEffectorConstants.REEF_ANGLE - 0.1) {
+        } else if (EndEffectorSubsystem.getInstance(null).getWristPosition() <= EndEffectorConstants.REEF_ANGLE + 0.1 && EndEffectorSubsystem.getInstance(null).getWristPosition() >= EndEffectorConstants.REEF_ANGLE - 0.1) {
             wristState = EndEffectorWristState.REEF;
-        } if (EndEffectorSubsystem.getInstance().getWristPosition() <= EndEffectorConstants.PROCESSOR_ANGLE + 0.1 && EndEffectorSubsystem.getInstance().getWristPosition() >= EndEffectorConstants.PROCESSOR_ANGLE - 0.1) {
+        } if (EndEffectorSubsystem.getInstance(null).getWristPosition() <= EndEffectorConstants.PROCESSOR_ANGLE + 0.1 && EndEffectorSubsystem.getInstance(null).getWristPosition() >= EndEffectorConstants.PROCESSOR_ANGLE - 0.1) {
             wristState = EndEffectorWristState.PROCESSOR;
         } else {
             wristState = EndEffectorWristState.INTAKE;
@@ -99,9 +98,9 @@ public class StateManager extends SubsystemBase {
     }
 
     public void updateWheelState() {
-        if (EndEffectorSubsystem.getInstance().getWheelSpeed() > 0) {
+        if (EndEffectorSubsystem.getInstance(null).getWheelSpeed() > 0) {
             wheelState = EndEffectorWheelState.INTAKING;
-        } else if (EndEffectorSubsystem.getInstance().getWheelSpeed() < 0) {
+        } else if (EndEffectorSubsystem.getInstance(null).getWheelSpeed() < 0) {
             wheelState = EndEffectorWheelState.OUTTAKING;
         } else {
             wheelState = EndEffectorWheelState.IDLE;
@@ -113,9 +112,9 @@ public class StateManager extends SubsystemBase {
     }
 
     public void updateIndexerState() {
-        if (IndexerSubsystem.getInstance(m_beamBreak).isBeamBroken()) {
+        if (IndexerSubsystem.getInstance(null).isBeamBroken()) {
             indexerState = IndexerState.HAS_CORAL;
-        } else if (IndexerSubsystem.getInstance(m_beamBreak).getSpeed() > 0) {
+        } else if (IndexerSubsystem.getInstance(null).getSpeed() > 0) {
             indexerState = IndexerState.ENABLED;
         } else {
             indexerState = IndexerState.DISABLED;

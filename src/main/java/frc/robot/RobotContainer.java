@@ -79,7 +79,7 @@ public class RobotContainer {
     private final IndexerSubsystem m_indexerSubsystem = IndexerSubsystem.getInstance(m_beamBreak);
     private final IntakeSubsystem m_intakeSubsystem = IntakeSubsystem.getInstance(m_beamBreak);
     private final ElevatorSubsystem m_elevatorSubsystem = ElevatorSubsystem.getInstance();
-    private final EndEffectorSubsystem m_endEffectorSubsystem = EndEffectorSubsystem.getInstance();
+    private final EndEffectorSubsystem m_endEffectorSubsystem = EndEffectorSubsystem.getInstance(m_beamBreak);
     private final StateManager stateManager = StateManager.getInstance();
 
 

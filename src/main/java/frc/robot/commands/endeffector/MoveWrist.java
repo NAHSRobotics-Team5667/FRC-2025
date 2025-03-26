@@ -16,7 +16,7 @@ public class MoveWrist extends Command {
     private double testPosition = 0.5; //Test Value
 
     public MoveWrist() {
-        endEffector = EndEffectorSubsystem.getInstance();
+        endEffector = EndEffectorSubsystem.getInstance(null);
         stateManager = StateManager.getInstance();
 
         addRequirements(endEffector);

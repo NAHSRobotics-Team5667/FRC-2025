@@ -31,15 +31,15 @@ import frc.robot.util.States.EndEffectorWristState;
 public class EndEffectorSubsystem implements Subsystem {
     private TalonFX m_wristMotor; //This motor will control the wrist on our end effector.
     private TalonFX m_wheelMotor; //This motor will control the wheels on ou end effector.
-    private static DigitalInput m_beamBreak; //This is the beam break sensor that will be used to detect if a game piece is in the end effector.
+    private final DigitalInput m_beamBreak; //This is the beam break sensor that will be used to detect if a game piece is in the end effector.
 	private MotionMagicConfigs MM_Wrist; //This will be used to set the motion magic values for the wrist motor.
 
     //Singleton
     private static EndEffectorSubsystem instance = null;
 
-    public static EndEffectorSubsystem getInstance() {
+    public static EndEffectorSubsystem getInstance(DigitalInput beamBreak) {
         if (instance == null)
-            instance = new EndEffectorSubsystem(m_beamBreak);
+            instance = new EndEffectorSubsystem(beamBreak);
 
         return instance;
     }
@@ -48,7 +48,7 @@ public class EndEffectorSubsystem implements Subsystem {
     public EndEffectorSubsystem(DigitalInput beamBreak) {
         m_wristMotor = new TalonFX(EndEffectorConstants.WRIST_ID);
         m_wheelMotor = new TalonFX(EndEffectorConstants.WHEELS_ID);
-        beamBreak = m_beamBreak;
+        m_beamBreak = beamBreak;
 
         MM_Wrist = new MotionMagicConfigs().
         withMotionMagicCruiseVelocity(EndEffectorConstants.VELOCITY).

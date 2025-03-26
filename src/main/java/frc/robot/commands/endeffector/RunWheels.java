@@ -11,7 +11,7 @@ public class RunWheels extends Command {
     private boolean isRunning;
 
     public RunWheels() {
-        endEffector = EndEffectorSubsystem.getInstance();
+        endEffector = EndEffectorSubsystem.getInstance(null);
         stateManager = StateManager.getInstance();
 
         addRequirements(endEffector);
