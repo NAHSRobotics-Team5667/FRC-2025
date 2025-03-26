@@ -31,7 +31,6 @@ import frc.robot.subsystems.ElevatorSubsystem; //Elevator subsystem.
 import frc.robot.subsystems.IndexerSubsystem; //Indexer subsystem.
 import frc.robot.subsystems.IntakeSubsystem; //Intake subsystem.
 import frc.robot.subsystems.EndEffectorSubsystem; //End effector subsystem.
-import frc.robot.subsystems.ClimberSubsystem; //Climber subsystem.
 import frc.robot.subsystems.StateManager; //State manager.
 
 import frc.robot.Constants.OperatorConstants; //Operator constants.
@@ -74,7 +73,6 @@ public class RobotContainer {
     private final IntakeSubsystem m_intakeSubsystem = IntakeSubsystem.getInstance(m_beamBreak);
     private final ElevatorSubsystem m_elevatorSubsystem = ElevatorSubsystem.getInstance();
     private final EndEffectorSubsystem m_endEffectorSubsystem = EndEffectorSubsystem.getInstance();
-    private final ClimberSubsystem m_climberSubsystem = ClimberSubsystem.getInstance();
     private final StateManager stateManager = StateManager.getInstance();
 
 

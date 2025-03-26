@@ -10,14 +10,12 @@ import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.EndEffectorSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.IndexerSubsystem;
-import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.util.States.ElevatorState;
 import frc.robot.util.States.RobotState;
 import frc.robot.util.States.EndEffectorWheelState;
 import frc.robot.util.States.EndEffectorWristState;
 import frc.robot.util.States.IntakeState;
 import frc.robot.util.States.IndexerState;
-import frc.robot.util.States.ClimberState;
 
 public class StateManager extends SubsystemBase {
     private static final DigitalInput m_beamBreak = new DigitalInput(IndexerConstants.BEAM_BREAK_PORT_ID);
@@ -39,9 +37,6 @@ public class StateManager extends SubsystemBase {
 
     //Indexer
     private IndexerState indexerState;
-
-    //Climber
-    private ClimberState climberState;
 
 
 
@@ -72,9 +67,6 @@ public class StateManager extends SubsystemBase {
 
         //Indexer ------------------------------
         indexerState = IndexerState.DISABLED;
-
-        //Climber ------------------------------
-        climberState = ClimberState.ZERO;
     }
     
     //=========================================================================
@@ -130,15 +122,6 @@ public class StateManager extends SubsystemBase {
         }
     }
 
-    public void updateClimberState() {
-        if (ClimberSubsystem.getInstance().isMoving()) {
-            climberState = ClimberState.CLIMBING;
-        } else if (ClimberSubsystem.getInstance().getClimberPosition() <= Constants.ClimberConstants.ROTATIONS + 0.1 && ClimberSubsystem.getInstance().getClimberPosition() >= Constants.ClimberConstants.ROTATIONS - 0.1) {
-            climberState = ClimberState.CLIMBED;
-        }
-            climberState = ClimberState.ZERO;
-        }
-
     //=========================================================================
     //=============================== GETTERS =================================
 
@@ -162,7 +145,4 @@ public class StateManager extends SubsystemBase {
         return indexerState;
     }
 
-    public ClimberState getClimberState() {
-        return climberState;
-    }
 }

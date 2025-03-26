@@ -56,13 +56,4 @@ public class States {
         /* State for when the indexer is enabled */
         ENABLED
     }
-
-    public static enum ClimberState {
-        /* State for when the climber is in the process of climbing */
-        CLIMBING,
-        /* State for when the climber is at position zero */
-        ZERO,
-        /* State for when the climber has reached its maximum position */
-        CLIMBED
-    }
 }
