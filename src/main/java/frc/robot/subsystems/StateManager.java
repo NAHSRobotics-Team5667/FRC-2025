@@ -99,7 +99,11 @@ public class StateManager extends SubsystemBase {
     }
 
     public void updateIntakeState() {
-
+        if (IntakeSubsystem.getInstance().isActive()) {
+            intakeState = IntakeState.INTAKING;
+        } else {
+            intakeState = IntakeState.IDLE;
+        }
     }
 
     public void updateIndexerState() {

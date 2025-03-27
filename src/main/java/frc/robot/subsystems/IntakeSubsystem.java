@@ -3,6 +3,8 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.PositionVoltage;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants.IntakeConstants;
@@ -96,4 +98,19 @@ public class IntakeSubsystem extends SubsystemBase {
         // Command the pivot motor to move to the target position
         m_pivotMotor.setControl(m_positionRequest.withPosition(targetPosition));
     }
+
+    public boolean isActive() {
+        if (m_rollerMotor.get() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+        @Override
+    public void periodic() {
+        // This method will be called once per scheduler run
+        SmartDashboard.putBoolean("[INTAKE] Status", isActive());
+    }
+
 }
