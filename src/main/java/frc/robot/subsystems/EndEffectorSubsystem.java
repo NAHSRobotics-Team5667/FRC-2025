@@ -46,8 +46,8 @@ public class EndEffectorSubsystem extends SubsystemBase {
     //===============================================================
     //===================== MOTOR ACTIONS ===========================
 
-    public void moveWheels() {
-        m_wheels.set(EndEffectorConstants.WHEEL_SPEED);
+    public void moveWheels(double speed) {
+        m_wheels.set(speed);
     }
 
     public void stopWheels() {

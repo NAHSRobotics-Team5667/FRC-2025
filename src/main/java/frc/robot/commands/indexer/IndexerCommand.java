@@ -1,25 +1,23 @@
-package frc.robot.commands.intake;
+package frc.robot.commands.indexer;
 
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.IndexerSubsystem;
 import frc.robot.subsystems.StateManager;
 import frc.robot.subsystems.BeamBreakSubsystem;
-import frc.robot.util.States.IntakeState;
+import frc.robot.util.States.IndexerState;
 import frc.robot.Constants.IndexerConstants;
-import frc.robot.Constants.IntakeConstants;
 
-public class IntakeCommand extends Command {
-    private IntakeSubsystem intake;
+public class IndexerCommand extends Command {
+    private IndexerSubsystem indexer;
     private StateManager stateManager;
     private static BeamBreakSubsystem m_beamBreak;
 
-    public IntakeCommand() {
+    public IndexerCommand() {
         m_beamBreak = BeamBreakSubsystem.getInstance();
-        intake = IntakeSubsystem.getInstance();
+        indexer = IndexerSubsystem.getInstance();
         stateManager = StateManager.getInstance();
 
-        addRequirements(intake);
+        addRequirements(indexer);
     }
 
     @Override
