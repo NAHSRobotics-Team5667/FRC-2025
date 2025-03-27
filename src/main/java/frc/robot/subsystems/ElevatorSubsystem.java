@@ -10,6 +10,7 @@ import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.Follower;
 import static edu.wpi.first.units.Units.Rotations;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ElevatorConstants;
 
@@ -79,6 +80,8 @@ public class ElevatorSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
+        SmartDashboard.putNumber("[ELEVATOR] Position", getElevatorPosition());
+        SmartDashboard.putBoolean("[ELEVATOR] Motion Status", isMoving()); //True if moving, False if not
     }
 
     @Override

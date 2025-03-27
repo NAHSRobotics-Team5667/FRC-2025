@@ -21,15 +21,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
-import edu.wpi.first.wpilibj.DigitalInput;
 
 // Constants and subsystems import.
 import frc.robot.generated.TunerConstants; //Constants for Swerve.
 import frc.robot.subsystems.CommandSwerveDrivetrain; //Swerve drivetrain subsystem.
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.Constants.OperatorConstants; //Operator constants.
-
-//Commands Import
 
 public class RobotContainer {
 
@@ -61,6 +58,7 @@ public class RobotContainer {
      * Subsystems:
      */
     private final ElevatorSubsystem m_elevatorSubsytem = new ElevatorSubsystem();
+
 
     /* Path follower */
     private final SendableChooser<Command> autoChooser;

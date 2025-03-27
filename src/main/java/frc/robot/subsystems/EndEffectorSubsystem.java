@@ -8,6 +8,8 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import static edu.wpi.first.units.Units.Rotations;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.EndEffectorConstants;
 
@@ -46,8 +48,8 @@ public class EndEffectorSubsystem extends SubsystemBase {
     //===============================================================
     //===================== MOTOR ACTIONS ===========================
 
-    public void moveWheels() {
-        m_wheels.set(EndEffectorConstants.WHEEL_SPEED);
+    public void moveWheels(double speed) {
+        m_wheels.set(speed);
     }
 
     public void stopWheels() {
@@ -77,17 +79,15 @@ public class EndEffectorSubsystem extends SubsystemBase {
         }
     }
 
-    public boolean isWheelEnabled() {
-        if (m_wheels.get() > 0) {
-            return true;
-        } else {
-            return false;
-        }
+    public double getWheelSpeed() {
+        return m_wheels.get();
     }
 
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
+        SmartDashboard.putNumber("[END EFFECTOR] Wheel Speed", getWheelSpeed());
+        SmartDashboard.putNumber("[END EFFECTOR] Wrist Position", getWristPosition());
     }
 
     @Override
