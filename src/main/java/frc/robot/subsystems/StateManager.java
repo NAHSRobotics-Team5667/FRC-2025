@@ -89,9 +89,9 @@ public class StateManager extends SubsystemBase {
     }
 
     public void updateWheelState() {
-        if (EndEffectorSubsystem.getInstance().isWheelEnabled()) {
+        if (EndEffectorSubsystem.getInstance().getWheelSpeed() > 0) {
             wheelState = WheelState.INTAKE;
-        } else if (!EndEffectorSubsystem.getInstance().isWheelEnabled()) {
+        } else if (EndEffectorSubsystem.getInstance().getWheelSpeed() < 0) {
             wheelState = WheelState.OUTTAKE;
         } else {
             wheelState = WheelState.IDLE;
